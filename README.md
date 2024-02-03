@@ -24,7 +24,7 @@ Before doing anything with this repository on your local machine, install Node.j
 
 #### Go to the project directory
 ```bash
-  cd my-project
+  cd your/project/directory
 ```
 
 #### Install dependencies
