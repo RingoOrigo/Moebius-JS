@@ -39,8 +39,8 @@ Before doing anything with this repository on your local machine, install Node.j
 npm install --save-dev eslint
 ```
 
-#### Modify the config file
-Your bot will not run without a proper config.json. You will find a template config file within your project's directory after cloning this repository. Below is an explanation of what each key-value pair should be:
+#### Making the config file
+Your bot will not run without a proper config.json. You are responsible for creating your own config.json file. Below is what a proper config.json file would look like for this project:
 
 ```
 token : Your bot's token from the Discord Developer Portal
