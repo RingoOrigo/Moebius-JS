@@ -40,14 +40,7 @@ npm install --save-dev eslint
 ```
 
 #### Making the config file
-Your bot will not run without a proper config.json. You are responsible for creating your own config.json file. Below is what a proper config.json file would look like for this project:
-
-```
-token : Your bot's token from the Discord Developer Portal
-clientID : Your bot's application ID
-guildID : The ID of your Discord server for testing
-status : The status you would like your bot to display when online
-```
+Your bot will not run without a proper config.json. You are responsible for creating your own config file, but a guide can be found on the wiki's [Making Your Config File](https://github.com/RingoOrigo/Moebius-JS/wiki/Making-Your-Config-File) page.
 
 #### Run the bot
 Before running the bot, deploy your commands to your test guild by running the following command in your directory's terminal.

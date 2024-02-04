@@ -1,4 +1,6 @@
 node_modules
 .env
-config.json
 .eslintrc.json
+# Do not commit the config file, as this will contain the bot's token.
+# Anyone who forks the Moebius project is responsible for creating their own config file
+config.json
