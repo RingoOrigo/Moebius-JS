@@ -1,6 +1,10 @@
 {
-	"token" : "Your bot's token here",
-	"clientID" : "your bot's ID here",
-	"guildID" : "your test guild ID here",
-	"status" : "Your bot's status here"
+	"token" : "token",
+	"clientID" : "bot ID",
+	"guildID" : "test guild ID",
+	"status" : "your bot's status",
+	"botName" : "your bot's username",
+	"botRepo" : "https://github.com/YOUR-FORK-OF-MOEBIUS",
+	"botCreator" : "Your username",
+	"helpServer" : "https://discord.gg/YOUR-HELP-SERVER"
 }

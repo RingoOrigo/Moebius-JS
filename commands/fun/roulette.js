@@ -9,6 +9,7 @@
 */
 
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
+const { botName } = require('../../config.json');
 
 module.exports = {
     data:new SlashCommandBuilder()
@@ -76,10 +77,10 @@ module.exports = {
             const rouletteEmbed = new EmbedBuilder()
                 .setColor('f0b3be')
                 .setAuthor({
-                    name: 'Moebius',
+                    name: `${botName}`,
                     iconURL: 'https://cdn.discordapp.com/avatars/995022636549681152/2617cb7afb19882f89aa5ee1bec1c86a',
                 })
-                .setTitle('Moebius Roulette Info')
+                .setTitle(`${botName} Roulette Info`)
                 .addFields(
                     { name: 'Standard Odds:', value: '1/6 chance to win the roulette. *this will play by default when a difficulty is not specified.*' },
                     { name: 'Casual Odds:', value: '11/12 chance to win the roulette.' },
@@ -88,7 +89,7 @@ module.exports = {
                 )
                 .setTimestamp()
                 .setFooter({
-                    text: 'Brought to you by Moebius',
+                    text: `Brought to you by ${botName}`,
                     iconURL: 'https://cdn.discordapp.com/avatars/995022636549681152/2617cb7afb19882f89aa5ee1bec1c86a',
                 });
 

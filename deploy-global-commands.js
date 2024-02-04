@@ -5,7 +5,7 @@
 */
 
 const { REST, Routes } = require('discord.js');
-const { token, clientID } = require('./config.json');
+const { token, clientID, guildID } = require('./config.json');
 const fs = require('node:fs');
 const path = require('node:path');
 
@@ -56,3 +56,8 @@ const rest = new REST().setToken(token);
         console.error(error);
     }
 })();
+
+// Delete guild commands upon global deployment
+rest.put(Routes.applicationGuildCommands(clientID, guildID), { body: [] })
+	.then(() => console.log('Successfully deleted all guild commands.'))
+	.catch(console.error);
