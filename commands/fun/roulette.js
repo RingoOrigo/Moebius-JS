@@ -100,11 +100,9 @@ module.exports = {
                 .setTitle(`${botName} Roulette Info`)
                 .addFields(
                     { name: 'Standard Odds:', value: '1/6 chance to win the roulette. *this will play by default when a difficulty is not specified.*' },
-                    { name: 'Casual Odds:', value: '11/12 chance to win the roulette.' },
-                    { name: 'Maddening Odds:', value: '1/12 chance to win the roulette.' },
+                    { name: 'Casual and Maddening:', value: 'The casual roulette has a 11/12 chance to win, while the Maddening roulette is the opposite, with a 1/12 chance.' },
                     { name: 'Lunatic Odds:', value: '1/1000 chance to win the roulette.' },
-                    { name: 'Infernal Odds:', calue: '1/100,000 chance to win the roulette.' },
-                    { name: 'Stygian Odds:', value:'1/2,000,000,000 chance to win the roulette.' },
+                    { name: 'Infernal and Stygian:', value: 'These are "secret" difficulties, with a 1/100,000 and 1/2,000,000,000 chance to win respectively. These were added because a Lunatic Roulette was won.' },
                 )
                 .setTimestamp()
                 .setFooter({
