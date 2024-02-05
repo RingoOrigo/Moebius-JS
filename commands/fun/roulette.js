@@ -5,7 +5,7 @@
         - Maddening: 11 in 12 chance to lose the roulette
         - Lunatic: 999 in 1000 chance to lose the roulette
         - Infernal: 99,999 in 100,000 chance ot lose the roulette
-        - Stygian: 1,999,999,999 in 2,000,000,00 chance to lose the roulette
+        - Stygian: 1,999,999,999 in 2,000,000,000 chance to lose the roulette
     By default, the standard difficulty will be chosen.
 */
 
@@ -103,6 +103,8 @@ module.exports = {
                     { name: 'Casual Odds:', value: '11/12 chance to win the roulette.' },
                     { name: 'Maddening Odds:', value: '1/12 chance to win the roulette.' },
                     { name: 'Lunatic Odds:', value: '1/1000 chance to win the roulette.' },
+                    { name: 'Infernal Odds:', calue: '1/100,000 chance to win the roulette.' },
+                    { name: 'Stygian Odds:', value:'1/2,000,000,000 chance to win the roulette.' },
                 )
                 .setTimestamp()
                 .setFooter({
