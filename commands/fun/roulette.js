@@ -4,7 +4,8 @@
         - Casual: 1 in 12 chance to lose the roulette
         - Maddening: 11 in 12 chance to lose the roulette
         - Lunatic: 999 in 1000 chance to lose the roulette
-
+        - Infernal: 99,999 in 100,000 chance ot lose the roulette
+        - Stygian: 1,999,999,999 in 2,000,000,00 chance to lose the roulette
     By default, the standard difficulty will be chosen.
 */
 
@@ -27,6 +28,8 @@ module.exports = {
                             { name: 'Casual', value: 'Casual' },
                             { name: 'Maddening', value: 'Maddening' },
                             { name: 'Lunatic', value: 'Lunatic' },
+                            { name: 'Infernal', value: 'Infernal' },
+                            { name: 'Stygian', value: 'Stygian' },
                     )))
         .addSubcommand(subcommand =>
             subcommand.setName('info')
@@ -61,6 +64,20 @@ module.exports = {
                 rouletteRoll = Math.floor(Math.random() * 1000 + 1);
                 if (rouletteRoll > 1) content = `:boom: ${interaction.user.displayName} was foolish enough to believe they could win a **lunatic roulette**. :gun:`;
                 else content = `:bangbang: Against all odds, ${interaction.user.displayName} has won a **lunatic roulette**!`;
+                break;
+
+            case 'Infernal':
+                // Play the Infernal roulette
+                rouletteRoll = Math.floor(Math.random() * 100000 + 1);
+                if (rouletteRoll > 1) content = `:boom: ${interaction.user.displayName} was foolish enough to attempt the ***INFERNAL ROULETTE*** and has *burned in Hell.* :fire:`;
+                else content = `:fire::fire::fire: ${interaction.user.displayName} has won the ***INFERNAL ROULETTE*** and emerged as the *Monarch of Hell*. :fire::fire::fire:`;
+                break;
+
+            case 'Stygian':
+                // Play the Stygian roulette. This is the hardest difficulty.
+                rouletteRoll = Math.floor(Math.random() * 2000000000 + 1);
+                if (rouletteRoll > 1) content = `Darkness has enveloped ${interaction.user.displayName} in its stygian embrace. It is unknown if they will return.`;
+                else content = `# The stygian darkness has been repelled by the light of ${interaction.user.name}, the Lightbearer!`;
                 break;
 
             default:
