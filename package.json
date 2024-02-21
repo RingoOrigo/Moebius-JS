@@ -27,7 +27,7 @@
   "homepage": "https://github.com/RingoOrigo/Moebius-JS#readme",
   "dependencies": {
     "discord.js": "^14.14.1",
-    "sequelize": "^6.36.0",
+    "sequelize": "^6.37.1",
     "sqlite3": "^5.1.7"
   },
   "devDependencies": {
