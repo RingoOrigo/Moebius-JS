@@ -2,7 +2,9 @@
 // fs is node's FileSystem module, used to read the commands directory.
 // path is used to make paths to access diles and directories
 const { Client, Collection, Events, GatewayIntentBits, ActivityType } = require('discord.js');
-const { token, status } = require('./config.json');
+// eslint-disable-next-line no-unused-vars
+const { token, testToken, status, mongoDBURI } = require('./config.json');
+const mongoose = require('mongoose');
 const fs = require('node:fs');
 const path = require('node:path');
 
@@ -77,5 +79,12 @@ client.once(Events.ClientReady, readyClient => {
     client.user.setActivity(status, { type: ActivityType.Watching });
 });
 
-// Log in to Discord with your client's token
-client.login(token);
+
+(async () => {
+    // Connect to the MongoDB database
+    await mongoose.connect(mongoDBURI);
+    console.log('Successfully connected to database.');
+
+    // Log in to Discord with your client's token
+    client.login(testToken);
+}) ();
