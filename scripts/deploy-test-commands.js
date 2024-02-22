@@ -5,7 +5,7 @@
 */
 
 const { REST, Routes } = require('discord.js');
-const { token, clientID, guildID } = require('../config.json');
+const { testToken, testID, guildID } = require('../config.json');
 const fs = require('node:fs');
 const path = require('node:path');
 
@@ -13,7 +13,7 @@ const path = require('node:path');
 const commands = [];
 
 // Define path of subfolders that would hold all commands.
-const foldersPath = path.join('../', 'commands');
+const foldersPath = path.join(__dirname, '../commands');
 const commandFolders = fs.readdirSync(foldersPath);
 
 for (const folder of commandFolders) {
@@ -36,7 +36,7 @@ for (const folder of commandFolders) {
 }
 
 // Create instance of REST module
-const rest = new REST().setToken(token);
+const rest = new REST().setToken(testToken);
 
 // Deploy commands
 (async () => {
@@ -45,7 +45,7 @@ const rest = new REST().setToken(token);
 
         // eslint-disable-next-line no-unused-vars
         const data = await rest.put(
-            Routes.applicationGuildCommands(clientID, guildID),
+            Routes.applicationGuildCommands(testID, guildID),
             { body: commands },
         );
 
