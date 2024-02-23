@@ -7,7 +7,7 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 const { botName, currencyName } = require('../../config.json');
 const UserProfile = require('../../schemas/UserProfile.js');
-const onCooldown = new Set();
+const onCooldown = new Map();
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -17,12 +17,15 @@ module.exports = {
     async execute(interaction) {
         // First, fail out of the command if the user is on cooldown.
         if (onCooldown.has(interaction.member.id)) {
-            await interaction.reply({ content:'You are currently on cooldown. You can only find a new haul every 90 minutes.', ephemeral: true });
+            const mins = 89 - Math.floor(((Date.now() - onCooldown.get(interaction.member.id)) / 1000) / 60); // Set the first number here to one less than the length of your cooldown in minutes.
+            const secs = 60 - Math.floor(((Date.now() - onCooldown.get(interaction.member.id)) / 1000) % 60);
+            if(mins == 0 && secs == 1) console.log("lmao");
+            await interaction.reply({ content:`You are currently on cooldown. You can only find a new haul every 90 minutes.\nYou will be able to find a new haul in ${mins > 0 ? mins + " minutes and " : ""}${secs} seconds`, ephemeral: true });
             return;
         }
 
         // Add the user to the list of users on cooldown
-        onCooldown.add(interaction.member.id);
+        onCooldown.set(interaction.member.id, interaction.createdTimestamp);
         setTimeout(() => {
                 // Remove the user from the set after 90 minutes
                 onCooldown.delete(interaction.member.id);
