@@ -13,15 +13,13 @@ module.exports = {
         .setDescription(`View the user's specified balance of${currencyName}s.`)
         .addUserOption(option =>
             option.setName('target')
-                .setDescription('The user\'s balance to display')
-                .setRequired(true))
+                .setDescription('The user\'s balance to display, defaults to yourself'))
         .addBooleanOption(option =>
             option.setName('ephemeral')
-                .setDescription('Decide whether the command\'s response is ephemeral or not. (Only you can see ephemeral messages')
-                .setRequired(true)),
+                .setDescription('Whether the response is ephemeral, defaults to true. (Only you can see ephemeral messages)')),
     async execute(interaction) {
-        const target = interaction.options.getUser('target');
-        const ephemeral = interaction.options.getBoolean('ephemeral');
+        const target = interaction.options.getUser('target') ?? interaction.user;
+        const ephemeral = interaction.options.getBoolean('ephemeral') ?? true;
 
         // First, get the user's profile. If it doesn't exist, make it.
         try {
