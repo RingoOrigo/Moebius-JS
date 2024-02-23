@@ -93,13 +93,13 @@ module.exports = {
 					.setTitle(`Information on ${botName}:`)
 					.setDescription(`${botName} is a small-scale, open-source Discord bot brought to you by ${botCreator}`)
 					.addFields(
-						{ name: 'Source Code Repository:', value:`View the ${botName} code repository on GitHub at ${botRepo}!` },
-						{ name: `${botName} Community Server:`, value:`Join the ${botName} community server to make feature suggestions, submit bug reports, and receive help with any issues you may experience at ${helpServer}!` },
+						{ name: 'Source Code Repository:', value:`View the ${botName} code repository on GitHub at ${botRepo} !` },
+						{ name: `${botName} Community Server:`, value:`Join the ${botName} community server to make feature suggestions, submit bug reports, and receive help with any issues you may experience at ${helpServer} !` },
 					)
 					.setFooter({
 						// Do not remove this line in any forks of this bot, please!
 						text:'Moebius is a project originally by Ringo Origo',
-						iconURL:'https://cdn.discordapp.com/avatars/547101541442650133/8e43d7b1bd0ad25b384b769c7c5171de?size=1024',
+						iconURL:'https://cdn.discordapp.com/avatars/547101541442650133/981ec4f0e606161018352e6c8992a790',
 					});
 				break;
 			}
