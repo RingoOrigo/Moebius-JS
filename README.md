@@ -1,3 +1,6 @@
+## DB-Dev Branch
+This is simply a test branch for database usage and development. It will be merged into main when I feel confident with my database usage.
+
 ## Moebius-JS
 Moebius JS is a full rewrite of Moebius within discord.js! Not only will all of the features from the original pycord build of Moebius be ported over, but a slew of new features will be implemented (exclusive to Moebius JS) as well!
 ## Roadmap

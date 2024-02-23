@@ -19,7 +19,7 @@ module.exports = {
 						.setRequired(true))
 				.addBooleanOption(option =>
 					option.setName('ephemeral')
-						.setDescription('Decide whether the command\'s respinse is ephemeral or not. (Only you can see ephemeral messages)')
+						.setDescription('Decide whether the command\'s response is ephemeral or not. (Only you can see ephemeral messages)')
 						.setRequired(true)))
 
 		.addSubcommand(subcommand =>
@@ -27,7 +27,7 @@ module.exports = {
 				.setDescription('Display information on this server.')
 				.addBooleanOption(option =>
 					option.setName('ephemeral')
-						.setDescription('Decide whether the command\'s respinse is ephemeral or not. (Only you can see ephemeral messages)')
+						.setDescription('Decide whether the command\'s response is ephemeral or not. (Only you can see ephemeral messages)')
 						.setRequired(true)))
 
 		.addSubcommand(subcommand =>
@@ -35,7 +35,7 @@ module.exports = {
 				.setDescription(`Display information on ${botName}.`)
 				.addBooleanOption(option =>
 					option.setName('ephemeral')
-						.setDescription('Decide whether the command\'s respinse is ephemeral or not. (Only you can see ephemeral messages)')
+						.setDescription('Decide whether the command\'s response is ephemeral or not. (Only you can see ephemeral messages)')
 						.setRequired(true))),
 
 	async execute(interaction) {

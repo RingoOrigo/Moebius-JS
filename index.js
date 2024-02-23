@@ -2,11 +2,11 @@
 // fs is node's FileSystem module, used to read the commands directory.
 // path is used to make paths to access diles and directories
 const { Client, Collection, Events, GatewayIntentBits, ActivityType } = require('discord.js');
-const { token, status } = require('./config.json');
+// eslint-disable-next-line no-unused-vars
+const { token, testToken, status, mongoDBURI } = require('./config.json');
+const mongoose = require('mongoose');
 const fs = require('node:fs');
 const path = require('node:path');
-
-// Require the necessary discord.js classes
 
 // Create a new client instance
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
@@ -45,11 +45,6 @@ client.on(Events.InteractionCreate, async interaction => {
     if (!interaction.isChatInputCommand()) return;
 
     const command = interaction.client.commands.get(interaction.commandName);
-    // If the command ISN'T found:
-    if (!command) {
-        console.error(`No command matching the name "${interaction.commandName}" was found.`);
-        return;
-    }
 
     try {
         // Attempt to execute the command
@@ -79,5 +74,12 @@ client.once(Events.ClientReady, readyClient => {
     client.user.setActivity(status, { type: ActivityType.Watching });
 });
 
-// Log in to Discord with your client's token
-client.login(token);
+
+(async () => {
+    // Connect to the MongoDB database
+    await mongoose.connect(mongoDBURI);
+    console.log('Successfully connected to database.');
+
+    // Log in to Discord with your client's token
+    client.login(testToken);
+}) ();
