@@ -2,6 +2,8 @@
         This script is used to deploy all application (slash) commands to your specified test guilds..
         These slash commands will only be visible within the designated development server.
             - The designated development server is the 'guildID' value within config.json
+        This is designed to work under the grounds that you have a designated testing account for your bot.
+            It will ONLY deploy these commands under your TEST TOKEN from your config file.
 */
 
 const { REST, Routes } = require('discord.js');

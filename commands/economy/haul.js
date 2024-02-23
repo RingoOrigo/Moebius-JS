@@ -7,30 +7,36 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 const { botName, currencyName } = require('../../config.json');
 const UserProfile = require('../../schemas/UserProfile.js');
+const onCooldown = new Set();
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName('work')
-        .setDescription(`Earn ${currencyName}s by working`),
+        .setName('haul')
+        .setDescription(`Find a random-sized haul of ${currencyName}s.`),
 
     async execute(interaction) {
+        // First, fail out of the command if the user is on cooldown.
+        if (onCooldown.has(interaction.member.id)) {
+            await interaction.reply({ content:'You are currently on cooldown. You can only find a new haul every 90 minutes.', ephemeral: true });
+            return;
+        }
+
+        // Add the user to the list of users on cooldown
+        onCooldown.add(interaction.member.id);
+        setTimeout(() => {
+                // Remove the user from the set after 90 minutes
+                onCooldown.delete(interaction.member.id);
+            }, 5400000,
+        );
+
         // First, try and find the user running the command in the database.
         try {
             let userProfile = await UserProfile.findOne({
                 userID: interaction.member.id,
             });
-            // If the user's profile exists, check to see if they can run this command (once daily)
-            if (userProfile) {
-              const lastDate = userProfile.lastCurrencyEarned?.toDateString();
-              const currentDate = new Date().toDateString();
 
-              if (lastDate === currentDate) {
-                interaction.reply({ content: `You cannot collect any more ${currencyName} today. Come back tomorrow`, ephemeral: true });
-                return;
-              }
-            }
-            // If the user's profile does NOT exist, make one
-            else {
+            // If the user's profile doesn't exist, make one for them.
+            if (!userProfile) {
                 userProfile = new UserProfile({
                     userID: interaction.member.id,
                 });
@@ -101,13 +107,12 @@ module.exports = {
             }
 
             userProfile.balance += earnings;
-            userProfile.lastCurrencyEarned = new Date();
             // Sync the data to the database
-            // await userProfile.save();
+            await userProfile.save();
             await interaction.reply({ embeds: [earningEmbed] });
         }
         catch (error) {
-            console.log(`Error handling daily command: ${error}`);
+            console.log(error);
         }
 
     },

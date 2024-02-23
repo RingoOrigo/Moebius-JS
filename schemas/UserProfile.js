@@ -17,9 +17,6 @@ const UserProfileSchema = new Schema(
             type: Number,
             default: 0,
         },
-        lastCurrencyEarned: {
-            type: Date,
-        },
     },
     { timestamps: true },
 );
