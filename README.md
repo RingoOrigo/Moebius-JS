@@ -12,7 +12,17 @@ While many of the features are already implemented, I am refraining from impleme
 #### Economy System
 Ideally, there would be some way to implement a global economy system, where users can earn a fictional currency and earn spots on global and server-based leaderboards with their balance. 
 
-* Progress: 1% (Planning Stage)
+* Progress: 30% (Takeoff Stage)
+
+##### List of Current Features:
+- Database organised by user IDs to keep track of user balances
+- Haul (used to gain currency)
+- Balance (used to view your balance or that of another user)
+##### Planned Features:
+- Leaderboard (View the 10 users with the highest global balances)
+- Shop System (Buy items for profile showcases or for a similar feature)
+    - This will integrate with a future feature, which is why it is not yet implemented
+
 ## Make It Yourself
 
 Before doing anything with this repository on your local machine, install Node.js from the following link: https://nodejs.org/en. Once you've installed Node.js, you're free to begin following the rest of these instructions!
@@ -29,7 +39,7 @@ Before doing anything with this repository on your local machine, install Node.j
 
 #### Install dependencies
 ```bash
-  npm install discord.js
+  npm install discord.js mongoose
 ```
 
 #### Optional: Install ESLint
@@ -43,19 +53,20 @@ npm install --save-dev eslint
 Your bot will not run without a proper config.json. You are responsible for creating your own config file, but a guide can be found on the wiki's [Making Your Config File](https://github.com/RingoOrigo/Moebius-JS/wiki/Making-Your-Config-File) page.
 
 #### Run the bot
-Before running the bot, deploy your commands to your test guild by running the following command in your directory's terminal.
+Before running the bot, deploy your commands to your test guild by running the following command in your directory's terminal. <br>
+*This will only deploy commands for your **test token**. To test in-place, without a second bot, you can just set the `testToken` key to the same value as your `token` key in `congif.json`.*
 
 ```bash
-  npm deploy-test-commands.js
+  npm run testDeploy
 ```
 
 You can then start the bot with the following command to ensure all of its commands are working as intended within your test guild.
 ```bash
-    npm index.js
+    npm run start
 ```
 
-Upon confirmation that everything is working as intended, deploy your commands globaly for use in every server containing your bot.
+Upon confirmation that everything is working as intended, deploy your commands globaly for use in every server containing your bot.<br>
+*This will **delete** all of your local test commands, replacing them with global counterparts.*
 ```bash
-    npm deploy-global-commands.js
+    npm run deploy
 ```
-

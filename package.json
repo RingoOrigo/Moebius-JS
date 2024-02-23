@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node ."
+    "start": "node .",
+    "testDeploy": "node ./scripts/deploy-test-commands.js",
+    "deploy": "node ./scripts/deploy-global-commands.js"
   },
   "repository": {
     "type": "git",
