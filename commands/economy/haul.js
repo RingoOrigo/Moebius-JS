@@ -21,7 +21,7 @@ module.exports = {
             const mins = 89 - Math.floor(((Date.now() - onCooldown.get(interaction.member.id)) / 1000) / 60);
             const secs = 60 - Math.floor(((Date.now() - onCooldown.get(interaction.member.id)) / 1000) % 60);
 
-            await interaction.reply({ content:`You're on cooldown! You can only find a new haul every 90 minutes.\nYou will be able to find a new haul in ${mins > 0 ? mins + ' minutes and ' : ''}${secs} seconds`, ephemeral: true });
+            await interaction.reply({ content:`You're on cooldown! You can find a new haul in **${mins > 0 ? mins + ' minutes and ' : ''}${secs} seconds.**`, ephemeral: true });
             return;
         }
 
