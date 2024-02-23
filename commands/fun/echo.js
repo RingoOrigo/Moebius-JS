@@ -19,17 +19,15 @@ module.exports = {
 
                 .addBooleanOption(option =>
             option.setName('anonymous')
-                .setDescription('Choose whether or not you remain anonymous')
-                .setRequired(true))
+                .setDescription('Choose whether or not you remain anonymous, defaults to false'))
 
         .addBooleanOption(option =>
             option.setName('bubbled')
-                .setDescription('Choose if your message will be sent in bubble letters or not')
-                .setRequired(true)),
+                .setDescription('Choose if your message will be sent in bubble letters or not, defaults to false')),
 
     async execute(interaction) {
-        const anonymous = interaction.options.getBoolean('anonymous');
-        const bubbled = interaction.options.getBoolean('bubbled');
+        const anonymous = interaction.options.getBoolean('anonymous') ?? false;
+        const bubbled = interaction.options.getBoolean('bubbled') ?? false;
         const content = interaction.options.getString('message');
         const symbols = [',', '.', '/', '?', '<', '>', '\'', '"', ';', ':', '[', ']', '{', '}', '|', '\\', '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '_', '-', '-', '+'];
         let finalMessage = '';

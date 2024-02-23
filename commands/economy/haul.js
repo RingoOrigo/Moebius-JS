@@ -12,14 +12,19 @@ const onCooldown = new Map();
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('haul')
-        .setDescription(`Find a random-sized haul of ${currencyName}s.`),
+        .setDescription(`Find a random-sized haul of ${currencyName}s.`)
+        .addUserOption(option =>
+            option.setName('target')
+                    .setDescription('The user that you will find a haul for, defaults to yourself.')),
 
     async execute(interaction) {
+        const target = interaction.options.getUser('target') ?? interaction.user;
+
         // First, fail out of the command if the user is on cooldown.
-        if (onCooldown.has(interaction.member.id)) {
+        if (onCooldown.has(target.id)) {
             // Set the first number here to one less than the length of your cooldown in minutes.
-            const mins = 89 - Math.floor(((Date.now() - onCooldown.get(interaction.member.id)) / 1000) / 60);
-            const secs = 60 - Math.floor(((Date.now() - onCooldown.get(interaction.member.id)) / 1000) % 60);
+            const mins = 89 - Math.floor(((Date.now() - onCooldown.get(target.id)) / 1000) / 60);
+            const secs = 60 - Math.floor(((Date.now() - onCooldown.get(target.id)) / 1000) % 60);
 
             await interaction.reply({ content:`You're on cooldown! You can find a new haul in **${mins > 0 ? mins + ' minutes and ' : ''}${secs} seconds.**`, ephemeral: true });
             return;
@@ -28,13 +33,13 @@ module.exports = {
         // First, try and find the user running the command in the database.
         try {
             let userProfile = await UserProfile.findOne({
-                userID: interaction.member.id,
+                userID: target.id,
             });
 
             // If the user's profile doesn't exist, make one for them.
             if (!userProfile) {
                 userProfile = new UserProfile({
-                    userID: interaction.member.id,
+                    userID: target.id,
                 });
             }
 
@@ -46,7 +51,7 @@ module.exports = {
                     name: `${botName}`,
                     iconURL: 'https://cdn.discordapp.com/avatars/995022636549681152/2617cb7afb19882f89aa5ee1bec1c86a',
                 })
-                .setTitle(`${interaction.member.displayName}'s Haul:`)
+                .setTitle(`<:gold:1210674875023491072> ${target.displayName}'s Haul:`)
                 .setTimestamp()
                 .setFooter({
                     text: `Brought to you by ${botName}`,
@@ -60,7 +65,7 @@ module.exports = {
                 // Range: 600 - 1000
                 earnings = Math.floor(Math.random() * 401 + 600);
                 earningEmbed.addFields(
-                    { name: 'Haul Rarity:', value: '**LEGENDARY** (1%)' },
+                    { name: 'Haul Rarity:', value: '**LEGENDARY**' },
                     { name: `${currencyName}s Earned:`, value: `${earnings}` },
                 );
             }
@@ -69,7 +74,7 @@ module.exports = {
                 // Range: 250 - 500
                 earnings = Math.floor(Math.random() * 251 + 250);
                 earningEmbed.addFields(
-                    { name: 'Haul Rarity:', value: '**Epic** (10%)' },
+                    { name: 'Haul Rarity:', value: '**Epic**' },
                     { name: `${currencyName}s Earned:`, value: `${earnings}` },
                 );
             }
@@ -77,7 +82,7 @@ module.exports = {
                 // 10% chance to earn nothing
                 earnings = 0;
                 earningEmbed.addFields(
-                    { name: 'Haul Rarity:', value: 'Haul Failure (10%)' },
+                    { name: 'Haul Rarity:', value: 'Haul Failure' },
                     { name: `${currencyName}s Earned:`, value: `${earnings}` },
                 );
             }
@@ -86,7 +91,7 @@ module.exports = {
                 // Range: 100 - 200
                 earnings = Math.floor(Math.random() * 101 + 100);
                 earningEmbed.addFields(
-                    { name: 'Haul Rarity:', value: '*Uncommon* (20%)' },
+                    { name: 'Haul Rarity:', value: '*Uncommon*' },
                     { name: `${currencyName}s Earned:`, value: `${earnings}` },
                 );
             }
@@ -95,7 +100,7 @@ module.exports = {
                 // Range: 1 - 65
                 earnings = Math.floor(Math.random() * 65 + 1);
                 earningEmbed.addFields(
-                    { name: 'Haul Rarity:', value: 'Common (60%)' },
+                    { name: 'Haul Rarity:', value: 'Common' },
                     { name: `${currencyName}s Earned:`, value: `${earnings}` },
                 );
             }
@@ -112,10 +117,10 @@ module.exports = {
         // Add the user to the list of users on cooldown
         // This should be the last thing to happen, as in events where the API lags,
         //     users can be added to the cooldown list before the command ever properly executes and their hauls will be skipped.
-        onCooldown.set(interaction.member.id, interaction.createdTimestamp);
+        onCooldown.set(target.id, interaction.createdTimestamp);
         setTimeout(() => {
                 // Remove the user from the set after 90 minutes
-                onCooldown.delete(interaction.member.id);
+                onCooldown.delete(target.id);
             }, 5400000,
         );
 

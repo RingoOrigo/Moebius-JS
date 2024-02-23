@@ -13,11 +13,10 @@ module.exports = {
         .setDescription(`View a leaderboard of the users with the top ${currencyName} balances.`)
         .addBooleanOption(option =>
             option.setName('ephemeral')
-                .setDescription('Decide whether the command\'s response is ephemeral or not. (Only you can see ephemeral messages')
-                .setRequired(true)),
+                .setDescription('Whether the response is ephemeral, defaults to true. (Only you can see ephemeral messages)')),
 
     async execute(interaction) {
-        const ephemeral = interaction.options.getBoolean('ephemeral');
+        const ephemeral = interaction.options.getBoolean('ephemeral') ?? true;
         const userList = await UserProfile.find();
 
         // Defer the reply as this can take a while

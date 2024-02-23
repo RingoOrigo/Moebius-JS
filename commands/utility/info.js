@@ -15,28 +15,24 @@ module.exports = {
 				.setDescription('Display information on the specified user')
 				.addUserOption(option =>
 					option.setName('target')
-						.setDescription('The user to display the information of')
-						.setRequired(true))
+						.setDescription('The user to display the information of, defaults to yourself'))
 				.addBooleanOption(option =>
 					option.setName('ephemeral')
-						.setDescription('Decide whether the command\'s response is ephemeral or not. (Only you can see ephemeral messages)')
-						.setRequired(true)))
+						.setDescription('Whether the response is ephemeral, defaults to true. (Only you can see ephemeral messages)')))
 
 		.addSubcommand(subcommand =>
 			subcommand.setName('server')
 				.setDescription('Display information on this server.')
 				.addBooleanOption(option =>
 					option.setName('ephemeral')
-						.setDescription('Decide whether the command\'s response is ephemeral or not. (Only you can see ephemeral messages)')
-						.setRequired(true)))
+						.setDescription('Whether the response is ephemeral, defaults to true. (Only you can see ephemeral messages)')))
 
 		.addSubcommand(subcommand =>
 			subcommand.setName('bot')
 				.setDescription(`Display information on ${botName}.`)
 				.addBooleanOption(option =>
 					option.setName('ephemeral')
-						.setDescription('Decide whether the command\'s response is ephemeral or not. (Only you can see ephemeral messages)')
-						.setRequired(true))),
+						.setDescription('Whether the response is ephemeral, defaults to true. (Only you can see ephemeral messages)'))),
 
 	async execute(interaction) {
 		// These are variable that will be useful in every switch case.
@@ -56,11 +52,11 @@ module.exports = {
 			});
 
 		let target;
-		const invisible = interaction.options.getBoolean('ephemeral');
+		const invisible = interaction.options.getBoolean('ephemeral') ?? true;
 
 		switch (subcommand) {
 			case 'user':
-				target = interaction.options.getUser('target');
+				target = interaction.options.getUser('target') ?? interaction.user;
 				// Construct a clean-looking embed to send to the user who ran this command.
 				// 'interaction.user' is the user who ran the command
 				embed

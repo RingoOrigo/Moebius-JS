@@ -10,12 +10,13 @@ module.exports = {
         .setName('cool')
         .setDescription('Display how cool the target user is.')
         .addUserOption(option =>
-            option.setName('target').setDescription('The target user').setRequired(true)),
+            option.setName('target')
+                    .setDescription('The target user, defaults to yourself')),
 
     async execute(interaction) {
         // Generate the "cool value" between 1 and 10
         const coolVal = Math.floor(Math.random() * 10 + 1);
-        const target = interaction.options.getUser('target');
+        const target = interaction.options.getUser('target') ?? interaction.user;
         let content = `${target.displayName}, on a scale of 1 - 10, you get a ${coolVal} on the Moebius Cool Meter:tm:\n**|**`;
         let emote;
 
