@@ -77,9 +77,11 @@ client.once(Events.ClientReady, readyClient => {
 
 (async () => {
     // Connect to the MongoDB database
+    // It is worth noting here that if you configured your database to only be accessible by a certain IP,
+    //      This will fail if your IP is not specified.
     await mongoose.connect(mongoDBURI);
     console.log('Successfully connected to database.');
 
     // Log in to Discord with your client's token
-    client.login(testToken);
+    client.login(token);
 }) ();

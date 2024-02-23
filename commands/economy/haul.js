@@ -25,14 +25,6 @@ module.exports = {
             return;
         }
 
-        // Add the user to the list of users on cooldown
-        onCooldown.set(interaction.member.id, interaction.createdTimestamp);
-        setTimeout(() => {
-                // Remove the user from the set after 90 minutes
-                onCooldown.delete(interaction.member.id);
-            }, 5400000,
-        );
-
         // First, try and find the user running the command in the database.
         try {
             let userProfile = await UserProfile.findOne({
@@ -61,8 +53,6 @@ module.exports = {
                     iconURL: 'https://cdn.discordapp.com/avatars/995022636549681152/2617cb7afb19882f89aa5ee1bec1c86a',
                 });
             let earnings = 0;
-
-            console.log(rngVal);
 
             if (rngVal == 1) {
                 // 1% legendary event
@@ -118,6 +108,16 @@ module.exports = {
         catch (error) {
             console.log(error);
         }
+
+        // Add the user to the list of users on cooldown
+        // This should be the last thing to happen, as in events where the API lags,
+        //     users can be added to the cooldown list before the command ever properly executes and their hauls will be skipped.
+        onCooldown.set(interaction.member.id, interaction.createdTimestamp);
+        setTimeout(() => {
+                // Remove the user from the set after 90 minutes
+                onCooldown.delete(interaction.member.id);
+            }, 5400000,
+        );
 
     },
 };
