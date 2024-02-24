@@ -8,7 +8,7 @@
 
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 const { botName, currencyName } = require('../../config.json');
-const UserProfile = require('../../schemas/UserProfile.js');
+const UserProfile = require('../../utils/schemas/UserProfile.js');
 
 module.exports = {
     data: new SlashCommandBuilder()

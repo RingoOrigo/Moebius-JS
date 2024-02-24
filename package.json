@@ -28,6 +28,7 @@
   },
   "homepage": "https://github.com/RingoOrigo/Moebius-JS#readme",
   "dependencies": {
+    "@napi-rs/canvas": "^0.1.49",
     "discord.js": "^14.14.1",
     "mongoose": "^8.2.0"
   },
