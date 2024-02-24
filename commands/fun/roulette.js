@@ -41,53 +41,53 @@ module.exports = {
         // Process which subcommand to run through.
         if (subcommand == 'play') {
             const userChoice = interaction.options.getString('difficulty');
-        let rouletteRoll;
-        let content;
+            let rouletteRoll;
+            let content;
 
-        switch (userChoice) {
-            case 'Casual':
-                // Play casual  roulette.
-                rouletteRoll = Math.floor(Math.random() * 12 + 1);
-                if (rouletteRoll == 1) content = `:boom: ${interaction.user.displayName} has lost a casual roulette. :gun:`;
-                else content = `:bangbang: ${interaction.user.displayName} has won a casual roulette.`;
-                break;
+            switch (userChoice) {
+                case 'Casual':
+                    // Play casual  roulette.
+                    rouletteRoll = Math.floor(Math.random() * 12 + 1);
+                    if (rouletteRoll == 1) content = `:boom: ${interaction.user.displayName} has lost a casual roulette. :gun:`;
+                    else content = `:bangbang: ${interaction.user.displayName} has won a casual roulette.`;
+                    break;
 
-            case 'Maddening':
-                // Play maddening roulette.
-                rouletteRoll = Math.floor(Math.random() * 12 + 1);
-                if (rouletteRoll > 1) content = `:boom: ${interaction.user.displayName} has lost a *maddening roulette*. :gun:`;
-                else content = `:bangbang: Against most odds, ${interaction.user.displayName} has won a *maddening roulette*!`;
-                break;
+                case 'Maddening':
+                    // Play maddening roulette.
+                    rouletteRoll = Math.floor(Math.random() * 12 + 1);
+                    if (rouletteRoll > 1) content = `:boom: ${interaction.user.displayName} has lost a *maddening roulette*. :gun:`;
+                    else content = `:bangbang: Against most odds, ${interaction.user.displayName} has won a *maddening roulette*!`;
+                    break;
 
-            case 'Lunatic':
-                // Play lunatic roulette
-                rouletteRoll = Math.floor(Math.random() * 1000 + 1);
-                if (rouletteRoll > 1) content = `:boom: ${interaction.user.displayName} was foolish enough to believe they could win a **lunatic roulette**. :gun:`;
-                else content = `:bangbang: Against all odds, ${interaction.user.displayName} has won a **lunatic roulette**!`;
-                break;
+                case 'Lunatic':
+                    // Play lunatic roulette
+                    rouletteRoll = Math.floor(Math.random() * 1000 + 1);
+                    if (rouletteRoll > 1) content = `:boom: ${interaction.user.displayName} was foolish enough to believe they could win a **lunatic roulette**. :gun:`;
+                    else content = `:bangbang: Against all odds, ${interaction.user.displayName} has won a **lunatic roulette**!`;
+                    break;
 
-            case 'Infernal':
-                // Play the Infernal roulette
-                rouletteRoll = Math.floor(Math.random() * 100000 + 1);
-                if (rouletteRoll > 1) content = `:boom: ${interaction.user.displayName} was foolish enough to attempt the ***INFERNAL ROULETTE*** and has *burned in Hell.* :fire:`;
-                else content = `:fire::fire::fire: ${interaction.user.displayName} has won the ***INFERNAL ROULETTE*** and emerged as the *Monarch of Hell*. :fire::fire::fire:`;
-                break;
+                case 'Infernal':
+                    // Play the Infernal roulette
+                    rouletteRoll = Math.floor(Math.random() * 100000 + 1);
+                    if (rouletteRoll > 1) content = `:boom: ${interaction.user.displayName} was foolish enough to attempt the ***INFERNAL ROULETTE*** and has *burned in Hell.* :fire:`;
+                    else content = `:fire::fire::fire: ${interaction.user.displayName} has won the ***INFERNAL ROULETTE*** and emerged as the *Monarch of Hell*. :fire::fire::fire:`;
+                    break;
 
-            case 'Stygian':
-                // Play the Stygian roulette. This is the hardest difficulty.
-                rouletteRoll = Math.floor(Math.random() * 2000000000 + 1);
-                if (rouletteRoll > 1) content = `Darkness has enveloped ${interaction.user.displayName} in its stygian embrace. It is unknown if they will return.`;
-                else content = `# The stygian darkness has been repelled by the light of ${interaction.user.name}, the Lightbearer!`;
-                break;
+                case 'Stygian':
+                    // Play the Stygian roulette. This is the hardest difficulty.
+                    rouletteRoll = Math.floor(Math.random() * 2000000000 + 1);
+                    if (rouletteRoll > 1) content = `Darkness has enveloped ${interaction.user.displayName} in its stygian embrace. It is unknown if they will return.`;
+                    else content = `# The stygian darkness has been repelled by the light of ${interaction.user.name}, the Lightbearer!`;
+                    break;
 
-            default:
-                // Play a standard roulette
-                rouletteRoll = Math.floor(Math.random() * 6 + 1);
-                if (rouletteRoll > 1) content = `:boom: ${interaction.user.displayName} has lost a roulette. :gun:`;
-                else content = `:bangbang: ${interaction.user.displayName} has won the roulette!`;
-        }
+                default:
+                    // Play a standard roulette
+                    rouletteRoll = Math.floor(Math.random() * 6 + 1);
+                    if (rouletteRoll > 1) content = `:boom: ${interaction.user.displayName} has lost a roulette. :gun:`;
+                    else content = `:bangbang: ${interaction.user.displayName} has won the roulette!`;
+            }
 
-        await interaction.reply(content);
+            await interaction.reply(content);
         }
         else if (subcommand == 'info') {
             // Build a nice looking embed to lay out all of the information about roulettes
