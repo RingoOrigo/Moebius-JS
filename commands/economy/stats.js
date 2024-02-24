@@ -35,11 +35,17 @@ module.exports = {
                 userProfile = new UserProfile({
                     userID: target.id,
                 });
-                return await interaction.reply({ content: 'You\'ve never found any hauls, so you have no stats! Use `/haul` to put yourself on the board.', ephemeral: ephemeral });
             }
 
             const balance = userProfile.balance;
             const hauls = userProfile.totalHauls;
+
+            if (hauls == 0) {
+                // Exit the command to prevent displaying an embed mostly composed of "NaN%",
+                //     which is produced by a divide by zero error when hauls is equal to zero
+                return await interaction.reply({ content: 'You\'ve never found any hauls, so you have no stats! Use `/haul` to put yourself on the board.', ephemeral: ephemeral });
+            }
+
             const embed = new EmbedBuilder()
                 .setColor('f0b3be')
                 .setAuthor({
