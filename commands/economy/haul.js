@@ -64,6 +64,8 @@ module.exports = {
                 // Formula for number within range [inclusive]: Math.random() * (max + 1 - min) + min
                 // Range: 600 - 1000
                 earnings = Math.floor(Math.random() * 401 + 600);
+                // Increment the number of times the user has gotten a haul of this rarity.
+                userProfile.legendaryHauls++;
                 earningEmbed.addFields(
                     { name: 'Haul Rarity:', value: '**LEGENDARY**' },
                     { name: `${currencyName}s Earned:`, value: `${earnings}` },
@@ -73,6 +75,7 @@ module.exports = {
                 // 9% Epic Event
                 // Range: 250 - 500
                 earnings = Math.floor(Math.random() * 251 + 250);
+                userProfile.epicHauls++;
                 earningEmbed.addFields(
                     { name: 'Haul Rarity:', value: '**Epic**' },
                     { name: `${currencyName}s Earned:`, value: `${earnings}` },
@@ -81,6 +84,7 @@ module.exports = {
             else if (rngVal <= 20) {
                 // 10% chance to earn nothing
                 earnings = 0;
+                userProfile.haulFailures++;
                 earningEmbed.addFields(
                     { name: 'Haul Rarity:', value: 'Haul Failure' },
                     { name: `${currencyName}s Earned:`, value: `${earnings}` },
@@ -89,6 +93,7 @@ module.exports = {
             else if (rngVal <= 40) {
                 // 20% Uncommon Event
                 // Range: 100 - 200
+                userProfile.uncommonHauls++;
                 earnings = Math.floor(Math.random() * 101 + 100);
                 earningEmbed.addFields(
                     { name: 'Haul Rarity:', value: '*Uncommon*' },
@@ -99,6 +104,7 @@ module.exports = {
                 // 60% chance common event
                 // Range: 1 - 65
                 earnings = Math.floor(Math.random() * 65 + 1);
+                userProfile.commonHauls++;
                 earningEmbed.addFields(
                     { name: 'Haul Rarity:', value: 'Common' },
                     { name: `${currencyName}s Earned:`, value: `${earnings}` },
@@ -106,6 +112,7 @@ module.exports = {
             }
 
             userProfile.balance += earnings;
+            userProfile.totalHauls++;
             // Sync the data to the database
             await userProfile.save();
             await interaction.reply({ embeds: [earningEmbed] });

@@ -17,6 +17,30 @@ const UserProfileSchema = new Schema(
             type: Number,
             default: 0,
         },
+        totalHauls: {
+            type: Number,
+            default: 0,
+        },
+        legendaryHauls: {
+            type: Number,
+            default: 0,
+        },
+        epicHauls: {
+            type: Number,
+            default: 0,
+        },
+        uncommonHauls: {
+            type: Number,
+            default: 0,
+        },
+        commonHauls: {
+            type: Number,
+            default: 0,
+        },
+        haulFailures: {
+            type: Number,
+            default: 0,
+        },
     },
     { timestamps: true },
 );
