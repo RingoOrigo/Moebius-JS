@@ -41,6 +41,14 @@ const UserProfileSchema = new Schema(
             type: Number,
             default: 0,
         },
+        backgrounds: {
+            type: [String],
+            default: ['bg1'],
+        },
+        currentBG: {
+            type: String,
+            default: 'bg1',
+        },
     },
     { timestamps: true },
 );
