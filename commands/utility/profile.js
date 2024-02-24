@@ -108,7 +108,7 @@ module.exports = {
                     .setCustomId('userBG')
                     .setPlaceholder('Select a background')
                     .addOptions(
-                        new StringSelectMenuOptionBuilder().setLabel('Stormy Skies').setValue('bg1').setDescription('The default background of stormy skies').setDefault(true),
+                        new StringSelectMenuOptionBuilder().setLabel('Stormy Skies').setValue('bg1').setDescription('The default background of stormy skies'),
                         new StringSelectMenuOptionBuilder().setLabel('Cloudy Sea').setValue('bg2').setDescription('A serene view of the vast Alrestian Cloud Sea'),
                         new StringSelectMenuOptionBuilder().setLabel('Wooden Pier').setValue('bg3').setDescription('Torigoth\'s wooden pier above the Cloud Sea'),
                         new StringSelectMenuOptionBuilder().setLabel('Magenta Forest').setValue('bg4').setDescription('Uraya\'s signature pink foliage'),
