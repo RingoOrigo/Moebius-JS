@@ -41,13 +41,21 @@ const UserProfileSchema = new Schema(
             type: Number,
             default: 0,
         },
-        backgrounds: {
+        inventory: {
             type: [String],
-            default: ['bg1'],
+            default: ['bg1', 'Veranda', '#ffffff', '#000000'],
         },
         currentBG: {
             type: String,
             default: 'bg1',
+        },
+        currentFont: {
+            type: String,
+            default: 'Veranda',
+        },
+        currentColor: {
+            type: String,
+            default: '#ffffff',
         },
     },
     { timestamps: true },

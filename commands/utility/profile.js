@@ -11,12 +11,12 @@ const { request } = require('undici');
 const { currencyName } = require('../../config.json');
 
 // Function to apply text to an image in order to make sure that every username fits onto the profile card.
-const applyText = (canvas, text) => {
+const applyText = (canvas, text, font) => {
 	const context = canvas.getContext('2d');
-	let fontSize = 48;
+	let fontSize = 120;
 
 	do {
-		context.font = `${fontSize -= 10}px Veranda`;
+		context.font = `${fontSize -= 10}px ${font}`;
 	} while (context.measureText(text).width > canvas.width - 225);
 
 	return context.font;
@@ -37,7 +37,16 @@ module.exports = {
                     .setDescription('Whether the response is ephemeral, defaults to true. (Only you can see ephemeral messages)')))
         .addSubcommand(subcommand =>
             subcommand.setName('edit')
-                .setDescription('Edit your profile card')),
+                .setDescription('Edit your profile card')
+                .addStringOption(option =>
+                    option.setName('category')
+                        .setDescription('The part of your profile to edit')
+                        .addChoices(
+                            { name: 'background', value: 'background' },
+                            { name: 'font', value: 'font' },
+                            { name: 'text color', value: 'color' },
+                        )
+                        .setRequired(true))),
 
     async execute(interaction) {
         const target = interaction.options.getUser('target') ?? interaction.user;
@@ -76,8 +85,8 @@ module.exports = {
                 avatar.src = Buffer.from(await body.arrayBuffer());
                 // Select the font size and style, then the text's color (fillstyle)
                 const textStartPos = (canvas.width / 2) - 20;
-                context.font = applyText(canvas, target.displayName);
-                context.fillStyle = '#ffffff';
+                context.font = applyText(canvas, target.displayName, profile.currentFont);
+                context.fillStyle = profile.currentColor;
 
                 // Draw the background image to the context object.
                 // 0, 0 is the origin of the image to be drawn, while canvas.width and canvas.height is the image's dimensions
@@ -91,7 +100,7 @@ module.exports = {
                 context.fillText(target.displayName, textStartPos, 100);
 
                 // Add text corresponding to their stats to their profile card.
-                context.font = applyText(canvas, `Current Balance: ${profile.balance} ${currencyName}s`);
+                context.font = applyText(canvas, `Current Balance: ${profile.balance} ${currencyName}s`, profile.currentFont);
                 context.fillText(`Current Balance: ${profile.balance} ${currencyName}s`, textStartPos, 140);
                 context.fillText(`Total Hauls: ${profile.totalHauls}`, textStartPos, 165);
 
@@ -100,35 +109,69 @@ module.exports = {
                 await interaction.followUp({ files: [attachment], ephemeral: ephemeral });
             }
             else if (subcommand == 'edit') {
-                // Prompt the user to select a background.
-                // If they do not own that background, follow up.
+                const category = interaction.options.getString('category');
+                let menu;
 
-                // Make a selection menu for all profile backgrounds
-                const menu = new StringSelectMenuBuilder()
-                    .setCustomId('userBG')
-                    .setPlaceholder('Select a background')
-                    .addOptions(
-                        new StringSelectMenuOptionBuilder().setLabel('Stormy Skies').setValue('bg1').setDescription('The default background of stormy skies'),
-                        new StringSelectMenuOptionBuilder().setLabel('Cloudy Sea').setValue('bg2').setDescription('A serene view of the vast Alrestian Cloud Sea'),
-                        new StringSelectMenuOptionBuilder().setLabel('Wooden Pier').setValue('bg3').setDescription('Torigoth\'s wooden pier above the Cloud Sea'),
-                        new StringSelectMenuOptionBuilder().setLabel('Magenta Forest').setValue('bg4').setDescription('Uraya\'s signature pink foliage'),
-                        new StringSelectMenuOptionBuilder().setLabel('Metal Castle').setValue('bg5').setDescription('Mor Ardain\'s towering Hardhaigh Palace'),
-                        new StringSelectMenuOptionBuilder().setLabel('Sunset Field').setValue('bg6').setDescription('A calming Leftherian field'),
-                        new StringSelectMenuOptionBuilder().setLabel('Tundra').setValue('bg7').setDescription('Tantal\'s cold, empty wasteland'),
-                        new StringSelectMenuOptionBuilder().setLabel('Golden Shrine').setValue('bg8').setDescription('The Vault of Heroes looming in the Spirit Crucible'),
-                        new StringSelectMenuOptionBuilder().setLabel('City Street').setValue('bg9').setDescription('The lost city of Morytha'),
-                        new StringSelectMenuOptionBuilder().setLabel('World Tree').setValue('bg10').setDescription('The massive, dense World Tree'),
-                        new StringSelectMenuOptionBuilder().setLabel('Rhadamanthus').setValue('bg11').setDescription('"Let\'s begin the experiment!"'),
-                    );
+                switch (category) {
+                    case 'background':
+                        // Prompt the user to select a background.
+                        // If they do not own that background, follow up.
+
+                        // Make a selection menu for all profile backgrounds
+                        menu = new StringSelectMenuBuilder()
+                            .setCustomId('userBG')
+                            .setPlaceholder('Select a background')
+                            .addOptions(
+                                new StringSelectMenuOptionBuilder().setLabel('Stormy Skies').setValue('bg1').setDescription('The default background of stormy skies'),
+                                new StringSelectMenuOptionBuilder().setLabel('Cloudy Sea').setValue('bg2').setDescription('A serene view of the vast Alrestian Cloud Sea'),
+                                new StringSelectMenuOptionBuilder().setLabel('Wooden Pier').setValue('bg3').setDescription('Torigoth\'s wooden pier above the Cloud Sea'),
+                                new StringSelectMenuOptionBuilder().setLabel('Magenta Forest').setValue('bg4').setDescription('Uraya\'s signature pink foliage'),
+                                new StringSelectMenuOptionBuilder().setLabel('Metal Castle').setValue('bg5').setDescription('Mor Ardain\'s towering Hardhaigh Palace'),
+                                new StringSelectMenuOptionBuilder().setLabel('Sunset Field').setValue('bg6').setDescription('A calming Leftherian field'),
+                                new StringSelectMenuOptionBuilder().setLabel('Tundra').setValue('bg7').setDescription('Tantal\'s cold, empty wasteland'),
+                                new StringSelectMenuOptionBuilder().setLabel('Golden Shrine').setValue('bg8').setDescription('The Vault of Heroes looming in the Spirit Crucible'),
+                                new StringSelectMenuOptionBuilder().setLabel('City Street').setValue('bg9').setDescription('The lost city of Morytha'),
+                                new StringSelectMenuOptionBuilder().setLabel('World Tree').setValue('bg10').setDescription('The massive, dense World Tree'),
+                                new StringSelectMenuOptionBuilder().setLabel('Rhadamanthus').setValue('bg11').setDescription('"Let\'s begin the experiment!"'),
+                            );
+                        break;
+
+                    case 'font':
+                        menu = new StringSelectMenuBuilder()
+                            .setCustomId('userFont')
+                            .setPlaceholder('Select a font')
+                            .addOptions(
+                                new StringSelectMenuOptionBuilder().setLabel('Default').setValue('Veranda').setDescription('The default font for your profile card.'),
+                                new StringSelectMenuOptionBuilder().setLabel('Meme').setValue('Impact').setDescription('The default meme font from the early internet.'),
+                                new StringSelectMenuOptionBuilder().setLabel('Programmer').setValue('Courier New').setDescription('The default font used by most programming IDEs'),
+                            );
+                        break;
+                    case 'color':
+                        menu = new StringSelectMenuBuilder()
+                            .setCustomId('userColor')
+                            .setPlaceholder('Select a color')
+                            .addOptions(
+                                new StringSelectMenuOptionBuilder().setLabel('White').setValue('#ffffff').setDescription('The default color of your profile card.'),
+                                new StringSelectMenuOptionBuilder().setLabel('Black').setValue('#000000').setDescription('The second default color of your profile card.'),
+                                new StringSelectMenuOptionBuilder().setLabel('Light Blue').setValue('#00C9FF').setDescription('A soft, light blue.'),
+                                new StringSelectMenuOptionBuilder().setLabel('Dark Blue').setValue('#1D16FF').setDescription('A soft, darker blue alternative.'),
+                                new StringSelectMenuOptionBuilder().setLabel('Light Red').setValue('#B80000').setDescription('A soft red, almost a dark pink.'),
+                                new StringSelectMenuOptionBuilder().setLabel('Violet').setValue('#5300EB').setDescription('Your standard purple.'),
+                                new StringSelectMenuOptionBuilder().setLabel('Golden Country').setValue('#E2C452').setDescription('The last remnant of Torna.'),
+                                new StringSelectMenuOptionBuilder().setLabel('Xenoblade Red').setValue('#FE0000').setDescription('The red from Xenoblade\'s title screens.'),
+                                new StringSelectMenuOptionBuilder().setLabel('Moebius Pink').setValue('#f0b3be').setDescription('The same colour Moebius uses in embeds.'),
+                            );
+                        break;
+                }
 
                 const row = new ActionRowBuilder().addComponents(menu);
                 const response = await interaction.reply({
-                    content: 'Choose a background to apply (You cannot use a background you do not own):',
+                    content: `Choose a ${category} to add to apply to your profile card (You cannoy apply a ${category} you do not own.)`,
                     components: [row],
-                    ephemeral: ephemeral,
+                    ephemeral: true,
                 });
 
-                // Wait for the user to respond
+                // Wait for the user to respond:
                 try {
                     const collector = response.createMessageComponentCollector({ componentType: ComponentType.StringSelect, time: 300000 });
 
@@ -136,20 +179,23 @@ module.exports = {
                         const selection = i.values[0];
 
                         // Check if the user actually owns the selection
-                        if (profile.backgrounds.includes(selection)) {
+                        if (profile.inventory.includes(selection)) {
                             // Set the background if the user owns it
-                            profile.currentBG = selection;
+                            if (category == 'background') profile.currentBG = selection;
+                            else if (category == 'font') profile.currentFont = selection;
+                            else if (category == 'color') profile.currentColor = selection;
+
                             await profile.save();
-                            await interaction.editReply({ content: 'Successfully changed your background!',
+                            await interaction.editReply({ content: `Successfully changed your ${category}!`,
                                                         components: [],
                                                         ephemeral: ephemeral });
                         }
                         else {
-                            await interaction.followUp({ content: 'You do not own this background!', ephemeral: ephemeral });
+                            await interaction.followUp({ content: `You do not own this ${category}!`, ephemeral: ephemeral });
                         }
                     });
                 }
-                catch (error) {
+                catch (e) {
                     await interaction.editReply({ content: 'This menu has timed out',
                                                 components: [],
                                                 ephemeral:ephemeral });

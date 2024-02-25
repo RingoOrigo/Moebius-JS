@@ -17,6 +17,8 @@ module.exports = {
                 .setRequired(true)
                 .addChoices(
                     { name: 'backgrounds', value: 'background' },
+                    { name: 'fonts', value: 'font' },
+                    { name: 'text colors', value: 'color' },
                 )),
 
     async execute(interaction) {
@@ -59,6 +61,32 @@ module.exports = {
                         new StringSelectMenuOptionBuilder().setLabel('World Tree').setValue('bg10 10000').setDescription(`10,000 ${currencyName}s: The massive, dense World Tree`),
                         new StringSelectMenuOptionBuilder().setLabel('Rhadamanthus').setValue('bg11 25000').setDescription(`25,000 ${currencyName}s: "Let's begin the experiment!"`),
                     );
+                break;
+
+            case 'font':
+                menu = new StringSelectMenuBuilder()
+                        .setCustomId('fontShop')
+                        .setPlaceholder('Select a font to purchase')
+                        .addOptions(
+                            new StringSelectMenuOptionBuilder().setLabel('Meme').setValue('Impact 1000').setDescription(`1,000 ${currencyName}s: The default meme font from the early internet.`),
+                            new StringSelectMenuOptionBuilder().setLabel('Programmer').setValue('Courier New 1000').setDescription(`1,000 ${currencyName}s: The default font used by most programming IDEs`),
+                        );
+                break;
+
+            case 'color':
+                menu = new StringSelectMenuBuilder()
+                        .setCustomId('colorShop')
+                        .setPlaceholder('Select a text color to purchase')
+                        .addOptions(
+                            new StringSelectMenuOptionBuilder().setLabel('Light Blue').setValue('#00C9FF 100').setDescription(`100 ${currencyName}s: A soft, light blue.`),
+                            new StringSelectMenuOptionBuilder().setLabel('Dark Blue').setValue('#1D16FF 100').setDescription(`100 ${currencyName}s: A soft, darker blue alternative.`),
+                            new StringSelectMenuOptionBuilder().setLabel('Light Red').setValue('#B80000 100').setDescription(`100 ${currencyName}s: A soft red, almost a dark pink.`),
+                            new StringSelectMenuOptionBuilder().setLabel('Violet').setValue('#5300EB 100').setDescription(`100 ${currencyName}s: Your standard purple.`),
+                            new StringSelectMenuOptionBuilder().setLabel('Golden Country').setValue('#E2C452 1000').setDescription(`1000 ${currencyName}s: The last remnant of Torna.`),
+                            new StringSelectMenuOptionBuilder().setLabel('Xenoblade Red').setValue('#FE0000 1000').setDescription(`1000 ${currencyName}s: The red from Xenoblade's title screens.`),
+                            new StringSelectMenuOptionBuilder().setLabel('Moebius Pink').setValue('#f0b3be 1000').setDescription(`1000 ${currencyName}s: The same colour Moebius uses in embeds.`),
+                        );
+                break;
         }
 
         const row = new ActionRowBuilder().addComponents(menu);
@@ -74,12 +102,10 @@ module.exports = {
 
             collector.on('collect', async i => {
                 const selection = i.values[0];
-                const choice = selection.slice(0, selection.indexOf(' '));
-                const price = selection.slice(selection.indexOf(' ') + 1);
+                const choice = selection.slice(0, selection.lastIndexOf(' '));
+                const price = selection.slice(selection.lastIndexOf(' ') + 1);
 
-                console.log(`${choice} was chosen. Cost: ${price}`);
-
-                if (profile.backgrounds.includes(choice)) {
+                if (profile.inventory.includes(choice)) {
                     await interaction.followUp({
                         content: 'You already own this item!',
                         ephemeral: true,
@@ -93,7 +119,7 @@ module.exports = {
                 }
                 else {
                     profile.balance -= price;
-                    profile.backgrounds.push(choice);
+                    profile.inventory.push(choice);
                     await profile.save();
 
                     await interaction.editReply({
