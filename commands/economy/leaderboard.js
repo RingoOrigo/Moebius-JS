@@ -17,7 +17,7 @@ module.exports = {
 
     async execute(interaction) {
         const ephemeral = interaction.options.getBoolean('ephemeral') ?? true;
-        const userList = await UserProfile.find();
+        let userList = await UserProfile.find();
 
         // Defer the reply as this can take a while
         await interaction.deferReply({ ephemeral: ephemeral });
@@ -25,7 +25,9 @@ module.exports = {
         // Sort all users by their balances. Descending order.
         userList.sort((a, b) => {
             return b.balance - a.balance;
-        }).slice(0, 10);
+        });
+        // Slice the list to only the first 10 entries
+        userList = userList.slice(0, 10);
 
         const embed = new EmbedBuilder()
             .setColor('f0b3be')
