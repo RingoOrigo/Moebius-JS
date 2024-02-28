@@ -2,6 +2,8 @@
     This is the command that users will perform in order to work to earn their money.
     Simply generate a random number between 0 and 100.
         From there, if the number is equal
+    Also allow a user to haul for another user, sacrificing their cooldown
+        in order to give the other user a second haul.
 */
 
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
@@ -21,10 +23,14 @@ module.exports = {
         const target = interaction.options.getUser('target') ?? interaction.user;
 
         // First, fail out of the command if the user is on cooldown.
-        if (onCooldown.has(target.id)) {
-            // Set the first number here to one less than the length of your cooldown in minutes.
-            const mins = 89 - Math.floor(((Date.now() - onCooldown.get(target.id)) / 1000) / 60);
-            const secs = 60 - Math.floor(((Date.now() - onCooldown.get(target.id)) / 1000) % 60);
+        if (onCooldown.has(interaction.user.id)) {
+            // Store the current remaining time of the user's cooldown
+            const currentTime = onCooldown.get(interaction.user.id);
+
+            // Use the current remaining cooldown time to calculate the remaining minutes and seconds
+            // Start minutes at 89, as the cooldown length is 90 minutes.
+            const mins = 89 - Math.floor(((Date.now() - currentTime) / 1000) / 60);
+            const secs = 60 - Math.floor(((Date.now() - currentTime) / 1000) % 60);
 
             await interaction.reply({ content:`You're on cooldown! You can find a new haul in **${mins > 0 ? mins + ' minutes and ' : ''}${secs} seconds.**`, ephemeral: true });
             return;
