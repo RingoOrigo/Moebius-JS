@@ -13,11 +13,11 @@ const { currencyName } = require('../../config.json');
 // Function to apply text to an image in order to make sure that every username fits onto the profile card.
 const applyText = (canvas, text, font) => {
 	const context = canvas.getContext('2d');
-	let fontSize = 120;
+	let fontSize = 100;
 
 	do {
-		context.font = `${fontSize -= 10}px ${font}`;
-	} while (context.measureText(text).width > canvas.width - 225);
+		context.font = `${fontSize -= 5}px ${font}`;
+	} while (context.measureText(text).width > canvas.width / 2 - 25);
 
 	return context.font;
 };
