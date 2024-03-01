@@ -91,6 +91,7 @@ module.exports = {
 					.addFields(
 						{ name: 'Source Code Repository:', value:`View the ${botName} code repository on GitHub at ${botRepo} !` },
 						{ name: `${botName} Community Server:`, value:`Join the ${botName} community server to make feature suggestions, submit bug reports, and receive help with any issues you may experience at ${helpServer} !` },
+						{ name: 'Non-Command Responses:', value:`${botName} has certain triggers that will cause it to respond outside of a command interaction. You can opt in and out by using \`/blacklist\`.` },
 					)
 					.setFooter({
 						// Do not remove this line in any forks of this bot, please!

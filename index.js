@@ -9,7 +9,9 @@ const fs = require('node:fs');
 const path = require('node:path');
 
 // Create a new client instance
-const client = new Client({ intents: [GatewayIntentBits.Guilds] });
+const client = new Client({ intents: [
+    GatewayIntentBits.Guilds,
+    GatewayIntentBits.GuildMessages] });
 
 // Collection is an extention of the Map class, used to store commands for efficient retrieval and execution.
 client.commands = new Collection();
