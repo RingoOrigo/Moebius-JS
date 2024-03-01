@@ -1,7 +1,7 @@
 // Required for command handling
 // fs is node's FileSystem module, used to read the commands directory.
 // path is used to make paths to access diles and directories
-const { Client, Collection, Events, GatewayIntentBits, ActivityType } = require('discord.js');
+const { Client, Collection, GatewayIntentBits } = require('discord.js');
 // eslint-disable-next-line no-unused-vars
 const { token, testToken, status, mongoDBURI } = require('./config.json');
 const mongoose = require('mongoose');
@@ -40,40 +40,24 @@ for (const folder of commandFolders) {
     }
 }
 
-client.on(Events.InteractionCreate, async interaction => {
-    // Return if the interaction isn't a slash command.
-    if (!interaction.isChatInputCommand()) return;
+// Read in event files
+const eventsPath = path.join(__dirname, 'events');
+const eventFiles = fs.readdirSync(eventsPath).filter(file => file.endsWith('.js'));
 
-    const command = interaction.client.commands.get(interaction.commandName);
+for (const file of eventFiles) {
+    // This is the same logic as finding all command files.
+    const filePath = path.join(eventsPath, file);
+    const event = require(filePath);
 
-    try {
-        // Attempt to execute the command
-        await command.execute(interaction);
+    if (event.once) {
+        // If the event is meant to only run once (such as ready), then run it when it is loaded
+        client.once(event.name, (...args) => event.execute(...args));
     }
-    catch (error) {
-        console.error(error);
-
-        // Catch any error during command execution
-        if (interaction.replied || interaction.deferred) {
-            await interaction.followUp({ content: 'There was an error while executing this command.', ephemeral: true });
-        }
-        else {
-            await interaction.reply({ content: 'There was an error while executing this command.', ephemeral: true });
-        }
+    else {
+        // Else, run the event as it occurs
+        client.on(event.name, (...args) => event.execute(...args));
     }
-});
-
-
-// When the client is ready, run this code (only once).
-// The distinction between `client: Client<boolean>` and `readyClient: Client<true>` is important for TypeScript developers.
-// It makes some properties non-nullable.
-client.once(Events.ClientReady, readyClient => {
-	console.log(`Ready! Logged in as ${readyClient.user.tag}`);
-
-    // Set the bot's status
-    client.user.setActivity(status, { type: ActivityType.Watching });
-});
-
+}
 
 (async () => {
     // Connect to the MongoDB database
