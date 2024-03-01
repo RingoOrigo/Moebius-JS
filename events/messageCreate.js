@@ -6,7 +6,7 @@
 
 const { Events } = require('discord.js');
 const Blacklist = require('../utils/schemas/Blacklist.js');
-const { messageResponses, testID } = require('../config.json');
+const { messageResponses, clientID } = require('../config.json');
 
 module.exports = {
     name: Events.MessageCreate,
@@ -15,7 +15,7 @@ module.exports = {
         //  if the message is an @everyone or @here, do nothing.
         if (message.author.bot) { return; }
         else if (message.mentions.everyone) { return; }
-        else if (message.mentions.has(testID)) {
+        else if (message.mentions.has(clientID)) {
             // Get the user's entry on the blacklist
             // If the user isn't in the blacklist, then this will be undefined.
             const blacklistStatus = await Blacklist.findOne({
