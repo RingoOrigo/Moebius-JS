@@ -126,12 +126,15 @@ module.exports = {
                                 new StringSelectMenuOptionBuilder().setLabel('Cloudy Sea').setValue('bg2').setDescription('A serene view of the vast Alrestian Cloud Sea'),
                                 new StringSelectMenuOptionBuilder().setLabel('Wooden Pier').setValue('bg3').setDescription('Torigoth\'s wooden pier above the Cloud Sea'),
                                 new StringSelectMenuOptionBuilder().setLabel('Magenta Forest').setValue('bg4').setDescription('Uraya\'s signature pink foliage'),
+                                new StringSelectMenuOptionBuilder().setLabel('Monado (Day)').setValue('bg12').setDescription('The Monado shining in the daylight sun'),
+                                new StringSelectMenuOptionBuilder().setLabel('Monado (Sunset)').setValue('bg13').setDescription('The Monado shining in the evening sunset'),
                                 new StringSelectMenuOptionBuilder().setLabel('Metal Castle').setValue('bg5').setDescription('Mor Ardain\'s towering Hardhaigh Palace'),
                                 new StringSelectMenuOptionBuilder().setLabel('Sunset Field').setValue('bg6').setDescription('A calming Leftherian field'),
                                 new StringSelectMenuOptionBuilder().setLabel('Tundra').setValue('bg7').setDescription('Tantal\'s cold, empty wasteland'),
                                 new StringSelectMenuOptionBuilder().setLabel('Golden Shrine').setValue('bg8').setDescription('The Vault of Heroes looming in the Spirit Crucible'),
                                 new StringSelectMenuOptionBuilder().setLabel('City Street').setValue('bg9').setDescription('The lost city of Morytha'),
                                 new StringSelectMenuOptionBuilder().setLabel('World Tree').setValue('bg10').setDescription('The massive, dense World Tree'),
+                                new StringSelectMenuOptionBuilder().setLabel('Monado (Night)').setValue('bg14').setDescription('The Monado brilliantly glowing at night'),
                                 new StringSelectMenuOptionBuilder().setLabel('Rhadamanthus').setValue('bg11').setDescription('"Let\'s begin the experiment!"'),
                             );
                         break;
