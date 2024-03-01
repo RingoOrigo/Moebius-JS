@@ -22,6 +22,10 @@ module.exports = {
         const target = interaction.options.getUser('target');
         const payment = interaction.options.getInteger('quantity');
 
+        if (payment <= 0) {
+            return await interaction.reply({ content: 'Try again with a valid amount.', ephemeral: true });
+        }
+
         let loaner;
         let recipient;
 
