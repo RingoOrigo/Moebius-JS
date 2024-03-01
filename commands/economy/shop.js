@@ -53,12 +53,15 @@ module.exports = {
                         new StringSelectMenuOptionBuilder().setLabel('Cloudy Sea').setValue('bg2 1000').setDescription(`1,000 ${currencyName}s: A serene view of the vast Alrestian Cloud Sea`),
                         new StringSelectMenuOptionBuilder().setLabel('Wooden Pier').setValue('bg3 1000').setDescription(`1,000 ${currencyName}s: Torigoth's wooden pier above the Cloud Sea`),
                         new StringSelectMenuOptionBuilder().setLabel('Magenta Forest').setValue('bg4 2500').setDescription(`2,500 ${currencyName}s: Uraya's signature pink foliage`),
+                        new StringSelectMenuOptionBuilder().setLabel('Monado (Day)').setValue('bg12 2500').setDescription(`2,500 ${currencyName}s: The Monado shining in the daylight sun.`),
+                        new StringSelectMenuOptionBuilder().setLabel('Monado (Sunset)').setValue('bg13 3500').setDescription(`3,500 ${currencyName}s: The Monado shining in the evening sunset.`),
                         new StringSelectMenuOptionBuilder().setLabel('Metal Castle').setValue('bg5 5000').setDescription(`5,000 ${currencyName}s: Mor Ardain's towering Hardhaigh Palace`),
                         new StringSelectMenuOptionBuilder().setLabel('Sunset Field').setValue('bg6 2500').setDescription(`2,500 ${currencyName}s: A calming Leftherian field`),
                         new StringSelectMenuOptionBuilder().setLabel('Tundra').setValue('bg7 1000').setDescription(`1,000 ${currencyName}s: Tantal's cold, empty wasteland`),
                         new StringSelectMenuOptionBuilder().setLabel('Golden Shrine').setValue('bg8 10000').setDescription(`10,000 ${currencyName}s: The Vault of Heroes looming in the Spirit Crucible`),
                         new StringSelectMenuOptionBuilder().setLabel('City Street').setValue('bg9 10000').setDescription(`10,000 ${currencyName}s: The lost city of Morytha`),
                         new StringSelectMenuOptionBuilder().setLabel('World Tree').setValue('bg10 10000').setDescription(`10,000 ${currencyName}s: The massive, dense World Tree`),
+                        new StringSelectMenuOptionBuilder().setLabel('Monado (Night)').setValue('bg14 2500').setDescription(`25,000 ${currencyName}s: The Monado brilliantly glowing at night.`),
                         new StringSelectMenuOptionBuilder().setLabel('Rhadamanthus').setValue('bg11 25000').setDescription(`25,000 ${currencyName}s: "Let's begin the experiment!"`),
                     );
                 break;
