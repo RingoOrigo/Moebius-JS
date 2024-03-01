@@ -17,15 +17,20 @@ module.exports = {
         .setDescription(`Find a random-sized haul of ${currencyName}s.`)
         .addUserOption(option =>
             option.setName('target')
-                    .setDescription('The user that you will find a haul for, defaults to yourself.')),
+                    .setDescription('The user that you will find a haul for, defaults to yourself.'))
+        .addBooleanOption(option =>
+            option.setName('reminder')
+                .setDescription('Choose whether or not to receive a DM reminder when your cooldown has expired.')),
 
     async execute(interaction) {
         const target = interaction.options.getUser('target') ?? interaction.user;
+        const user = interaction.user;
+        const reminder = interaction.options.getBoolean('reminder') ?? false;
 
         // First, fail out of the command if the user is on cooldown.
-        if (onCooldown.has(interaction.user.id)) {
+        if (onCooldown.has(user.id)) {
             // Store the current remaining time of the user's cooldown
-            const currentTime = onCooldown.get(interaction.user.id);
+            const currentTime = onCooldown.get(user.id);
 
             // Use the current remaining cooldown time to calculate the remaining minutes and seconds
             // Start minutes at 89, as the cooldown length is 90 minutes.
@@ -130,10 +135,16 @@ module.exports = {
         // Add the user to the list of users on cooldown
         // This should be the last thing to happen, as in events where the API lags,
         //     users can be added to the cooldown list before the command ever properly executes and their hauls will be skipped.
-        onCooldown.set(target.id, interaction.createdTimestamp);
+        onCooldown.set(user.id, interaction.createdTimestamp);
         setTimeout(() => {
                 // Remove the user from the set after 90 minutes
-                onCooldown.delete(target.id);
+                onCooldown.delete(user.id);
+
+                // Check if the user is on the Moebius Blacklist
+                // And DM the user when their haul is ready (if they aren't on the blacklist)
+                if (reminder) {
+                    user.send('Your haul cooldown has expired and you are now free to use the command again!');
+                }
             }, 5400000,
         );
 
