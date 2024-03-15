@@ -13,7 +13,15 @@ const UserProfileSchema = new Schema(
             type: String,
             required: true,
         },
+        displayName: {
+            type: String,
+            required: true,
+        },
         balance: {
+            type: Number,
+            default: 0,
+        },
+        netWorth: {
             type: Number,
             default: 0,
         },
