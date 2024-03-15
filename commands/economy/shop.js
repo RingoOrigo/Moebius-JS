@@ -100,45 +100,45 @@ module.exports = {
         });
 
         // Wait for the user to respond
-        try {
-            const collector = response.createMessageComponentCollector({ componentType: ComponentType.StringSelect, time: 300000 });
+        const collector = response.createMessageComponentCollector({ componentType: ComponentType.StringSelect, time: 300000 });
 
-            collector.on('collect', async i => {
-                const selection = i.values[0];
-                const choice = selection.slice(0, selection.lastIndexOf(' '));
-                const price = selection.slice(selection.lastIndexOf(' ') + 1);
+        collector.on('collect', async i => {
+            const selection = i.values[0];
+            const choice = selection.slice(0, selection.lastIndexOf(' '));
+            const price = selection.slice(selection.lastIndexOf(' ') + 1);
 
-                if (profile.inventory.includes(choice)) {
-                    await interaction.followUp({
-                        content: 'You already own this item!',
-                        ephemeral: true,
-                    });
-                }
-                else if (price > profile.balance) {
-                    await interaction.followUp({
-                        content: 'You cannot afford that item!',
-                        ephemeral: true,
-                    });
-                }
-                else {
-                    profile.balance -= price;
-                    profile.inventory.push(choice);
-                    await profile.save();
+            if (profile.inventory.includes(choice)) {
+                await interaction.followUp({
+                    content: 'You already own this item!',
+                    ephemeral: true,
+                });
+            }
+            else if (price > profile.balance) {
+                await interaction.followUp({
+                    content: 'You cannot afford that item!',
+                    ephemeral: true,
+                });
+            }
+            else {
+                profile.balance -= price;
+                profile.inventory.push(choice);
+                await profile.save();
 
-                    await interaction.editReply({
-                        content: `Thank you for your purchase!\nYour new balance is ${profile.balance} ${currencyName}s`,
-                        components: [],
-                        ephemeral: true,
-                    });
-                }
-            });
-        }
-        catch (error) {
+                await interaction.editReply({
+                    content: `Thank you for your purchase!\nYour new balance is ${profile.balance} ${currencyName}s`,
+                    components: [],
+                    ephemeral: true,
+                });
+            }
+        });
+        // Disable the message when it times out
+        // eslint-disable-next-line no-unused-vars
+        collector.on('end', async i => {
             await interaction.editReply({
                 content: 'This menu has expired',
                 components: [],
                 ephemeral: true,
             });
-        }
+        });
     },
 };
