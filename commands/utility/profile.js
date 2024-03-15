@@ -175,7 +175,6 @@ module.exports = {
                 });
 
                 // Wait for the user to respond:
-                try {
                     const collector = response.createMessageComponentCollector({ componentType: ComponentType.StringSelect, time: 300000 });
 
                     collector.on('collect', async i => {
@@ -197,12 +196,15 @@ module.exports = {
                             await interaction.followUp({ content: `You do not own this ${category}!`, ephemeral: ephemeral });
                         }
                     });
-                }
-                catch (e) {
-                    await interaction.editReply({ content: 'This menu has timed out',
-                                                components: [],
-                                                ephemeral:ephemeral });
-                }
+
+                    // eslint-disable-next-line no-unused-vars
+                    collector.on('end', async i => {
+                        await interaction.editReply({
+                            content: 'This menu has timed out',
+                            components: [],
+                            ephemeral: ephemeral,
+                        });
+                    });
             }
         }
         catch (error) { console.log(error); }
