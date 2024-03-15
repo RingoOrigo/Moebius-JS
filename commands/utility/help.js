@@ -30,21 +30,26 @@ module.exports = {
         const econButton = new ButtonBuilder()
             .setCustomId('economy')
             .setLabel('Economy')
-            .setStyle(ButtonStyle.Secondary);
+            .setStyle(ButtonStyle.Primary);
 
         const utilButton = new ButtonBuilder()
             .setCustomId('utility')
             .setLabel('Utility')
-            .setStyle(ButtonStyle.Secondary);
+            .setStyle(ButtonStyle.Primary);
 
         const funButton = new ButtonBuilder()
             .setCustomId('fun')
             .setLabel('Fun')
+            .setStyle(ButtonStyle.Primary);
+
+        const quitButton = new ButtonBuilder()
+            .setCustomId('quit')
+            .setLabel('Close')
             .setStyle(ButtonStyle.Secondary);
 
         // Add each button to an action row that will be attached to the interaction's reply
         const row = new ActionRowBuilder()
-            .addComponents(econButton, utilButton, funButton);
+            .addComponents(econButton, utilButton, funButton, quitButton);
 
         const response = await interaction.reply({
             content : 'Click or tap on one of the buttons below to view detailed information on every supported command!',
@@ -52,15 +57,15 @@ module.exports = {
             ephemeral: true,
         });
 
-        const collectorFilter = i => i.user.id === interaction.user.id;
-        // Have the message disappear after one minute.
-        try {
-            const selection = await response.awaitMessageComponent({
-                filter: collectorFilter,
-                time: 60_000
-            });
+        const collector = response.createMessageComponentCollector({
+            // Component type 2 corresponds to Button input
+            componentType: 2,
+            time: 300_000,
+            idle: 120_000,
+        });
 
-            // According to the command category selected, edit the embed to be sent
+        collector.on('collect', async selection => {
+            // Now that the button interaction has been stored, act accordingly
             if (selection.customId == 'economy') {
                 helpEmbed.setTitle(`${botName} Economy Commands`)
                     .addFields(
@@ -88,22 +93,34 @@ module.exports = {
                         { name: '/echo', value: `Have ${botName} echo your message in standard text or bubble letters. Choose whether to remain anonymous or be quoted.`, inline: true },
                     );
             }
+            // Update the interaction message
+            if (selection.customId != 'quit') {
+                await selection.update({
+                    content : `Displaying the ${selection.customId} command menu:`,
+                    components: [row],
+                    embeds: [helpEmbed],
+                    ephemeral: true,
+                });
+            }
+            else {
+                await selection.update({
+                    content: 'Successfully closed the menu, you may now dismiss this message.',
+                    ephemeral: true,
+                    embeds: [],
+                    components: [],
+                });
+            }
+        });
 
-            // Update the interaction
-            await selection.update({
-                content : '',
-                components: [],
-                embeds: [helpEmbed],
-                ephemeral: true,
-            });
-        }
-        catch (e) {
+        // Update the interaction when the collector times out.
+        // eslint-disable-next-line no-unused-vars
+        collector.on('end', async i => {
             await interaction.editReply({
-                content: 'You have run out of time to make a selection.',
-                components: [],
+                content: 'Interactions with this menu have been disabled due to inactivity. You may now dismiss this message.',
                 ephemeral: true,
-            })
-        }
-
+                embeds: interaction.embeds,
+                components: [],
+            });
+        });
     },
 };
