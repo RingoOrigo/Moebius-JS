@@ -28,14 +28,14 @@ module.exports = {
         try {
             let userProfile = await UserProfile.findOne({
                 userID: target.id,
-                displayName: target.globalName,
+                displayName: target.globalName ?? target.displayName,
             });
 
             // If the account isn't found, create one!
             if (!userProfile) {
                 userProfile = new UserProfile({
                     userID: target.id,
-                    displayName: target.globalName,
+                    displayName: target.globalName ?? target.displayName,
                 });
             }
 

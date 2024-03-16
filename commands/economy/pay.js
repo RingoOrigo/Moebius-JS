@@ -41,7 +41,7 @@ module.exports = {
             });
             recipient = await UserProfile.findOne({
                 userID: target.id,
-                displayName: target.globalName,
+                displayName: target.globalName ?? target.displayName,
             });
             // Create entires for the recipient and loaner if they do not already exist.
             if (!loaner) {
@@ -53,7 +53,7 @@ module.exports = {
             if (!recipient) {
                 recipient = new UserProfile({
                     userID: target.id,
-                    displayName: target.globalName,
+                    displayName: target.globalName ?? target.displayName,
                 });
             }
 

@@ -45,14 +45,14 @@ module.exports = {
         try {
             let userProfile = await UserProfile.findOne({
                 userID: target.id,
-                displayName: target.globalName,
+                displayName: target.globalName ?? target.displayName,
             });
 
             // If the user's profile doesn't exist, make one for them.
             if (!userProfile) {
                 userProfile = new UserProfile({
                     userID: target.id,
-                    displayName: target.globalName,
+                    displayName: target.globalName ?? target.displayName,
                 });
             }
 
