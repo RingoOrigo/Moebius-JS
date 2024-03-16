@@ -58,11 +58,13 @@ module.exports = {
             // Find a profile for the user in the database
             profile = await UserProfile.findOne({
                 userID: target.id,
+                displayName: target.globalName,
             });
             // If it doesn't exist, create one!
             if (!profile) {
                 profile = new UserProfile({
                     userID: target.id,
+                    displayName: target.globalName,
                 });
             }
 

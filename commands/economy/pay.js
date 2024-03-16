@@ -9,7 +9,7 @@ const UserProfile = require('../../utils/schemas/UserProfile.js');
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('pay')
-        .setDescription(`Gift some ${currencyName} to the designated user`)
+        .setDescription(`Gift some ${currencyName} to the designated user. This does not alter their net worth.`)
         .addUserOption(option =>
             option.setName('target')
                 .setDescription('The user to pay')
@@ -37,21 +37,23 @@ module.exports = {
             // Find the loaner and recipients entries in the database.
             loaner = await UserProfile.findOne({
                 userID: interaction.user.id,
+                displayName: interaction.user.globalName,
             });
-
             recipient = await UserProfile.findOne({
                 userID: target.id,
+                displayName: target.globalName,
             });
-
             // Create entires for the recipient and loaner if they do not already exist.
             if (!loaner) {
                 loaner = new UserProfile({
                     userID: interaction.user.id,
+                    displayName: interaction.user.globalName,
                 });
             }
             if (!recipient) {
                 recipient = new UserProfile({
                     userID: target.id,
+                    displayName: target.globalName,
                 });
             }
 

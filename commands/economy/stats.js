@@ -28,22 +28,25 @@ module.exports = {
         try {
             let userProfile = await UserProfile.findOne({
                 userID: target.id,
+                displayName: target.globalName,
             });
 
             // If the account isn't found, create one!
             if (!userProfile) {
                 userProfile = new UserProfile({
                     userID: target.id,
+                    displayName: target.globalName,
                 });
             }
 
             const balance = userProfile.balance;
+            const netWorth = userProfile.netWorth;
             const hauls = userProfile.totalHauls;
 
             if (hauls == 0) {
                 // Exit the command to prevent displaying an embed mostly composed of "NaN%",
                 //     which is produced by a divide by zero error when hauls is equal to zero
-                return await interaction.reply({ content: 'You\'ve never found any hauls, so you have no stats! Use `/haul` to put yourself on the board.', ephemeral: ephemeral });
+                return await interaction.reply({ content: 'This user has no stats, as they have never used /haul.', ephemeral: ephemeral });
             }
 
             const embed = new EmbedBuilder()
@@ -60,6 +63,7 @@ module.exports = {
                 .setTitle(`${target.displayName}'s Haul Stats`)
                 .addFields(
                     { name: '__Current Balance__:', value: `${balance} ${currencyName}s` },
+                    { name: '__Net Worth__:', value: `${netWorth} ${currencyName}s` },
                     // I hate having this extremely long line, but the formatting is awful if this is split into multiple lines, so unfortunately I am keeping it.
                     { name: '__Numeric Haul Stats__:', value: `Total Hauls Found: **${hauls}**\nLegendary Hauls Found: **${userProfile.legendaryHauls}**\nEpic Hauls Found: **${userProfile.epicHauls}**\nUncommon Hauls Found: **${userProfile.uncommonHauls}**\nCommon Hauls Found: **${userProfile.commonHauls}**\nHaul Failures: **${userProfile.haulFailures}**`, inline: true },
                     { name: '__Haul-Type Percentages__:', value: `Legendary Hauls: **${(userProfile.legendaryHauls / hauls * 100).toFixed(1)}%**\nEpic Hauls: **${(userProfile.epicHauls / hauls * 100).toFixed(1)}%**\nUncommon Hauls: **${(userProfile.uncommonHauls / hauls * 100).toFixed(1)}%**\nCommon Hauls: **${(userProfile.commonHauls / hauls * 100).toFixed(1)}%**\nHaul Failures: **${(userProfile.haulFailures / hauls * 100).toFixed(1)}%**\n`, inline: true },

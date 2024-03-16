@@ -45,12 +45,14 @@ module.exports = {
         try {
             let userProfile = await UserProfile.findOne({
                 userID: target.id,
+                displayName: target.globalName,
             });
 
             // If the user's profile doesn't exist, make one for them.
             if (!userProfile) {
                 userProfile = new UserProfile({
                     userID: target.id,
+                    displayName: target.globalName,
                 });
             }
 
@@ -123,6 +125,7 @@ module.exports = {
             }
 
             userProfile.balance += earnings;
+            userProfile.netWorth += earnings;
             userProfile.totalHauls++;
             // Sync the data to the database
             await userProfile.save();
