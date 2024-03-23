@@ -23,12 +23,18 @@ module.exports = {
         });
 
         // Only respond when mentioned
-        if (message.mentions.has(clientID) && !blacklistStatus) {
-            // If the user is NOT in the blacklist, respond with a random message from the list in the config file.
-            return await message.reply(messageResponses[Math.floor(Math.random() * messageResponses.length)]);
-        }
-        else if (message.content.includes('time') && !blacklistStatus) {
-            return await message.reply('It\'s moebin\' time!');
+        if (!blacklistStatus) {
+            const content = message.content.toLowerCase();
+            if (message.mentions.has(clientID)) {
+                // If the user is NOT in the blacklist, respond with a random message from the list in the config file.
+                return await message.reply(messageResponses[Math.floor(Math.random() * messageResponses.length)]);
+            }
+            if (content.includes('time')) {
+                return await message.reply('It\'s moebin\' time!');
+            }
+            if (content.includes('yippee')) {
+                return await message.react('<:yippee:1219088376783831182>');
+            }
         }
     },
 };

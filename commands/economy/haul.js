@@ -146,7 +146,12 @@ module.exports = {
                 // Check if the user is on the Moebius Blacklist
                 // And DM the user when their haul is ready (if they aren't on the blacklist)
                 if (reminder) {
-                    user.send('Your haul cooldown has expired and you are now free to use the command again!');
+                    try {
+                        user.send('Your haul cooldown has expired and you are now free to use the command again!');
+                    }
+                    catch (e) {
+                        console.log(`${interaction.user.globalName} does not allow messages.`);
+                    }
                 }
             }, 5400000,
         );
