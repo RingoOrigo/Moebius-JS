@@ -4,7 +4,7 @@
 */
 
 const { Events, ActivityType } = require('discord.js');
-const { status } = require('../config.json');
+const { statuses } = require('../config.json');
 
 module.exports = {
 	name: Events.ClientReady,
@@ -12,6 +12,18 @@ module.exports = {
 	execute(client) {
 		console.log(`Ready! Logged in as ${client.user.displayName}`);
 
-        client.user.setActivity(status, { type: ActivityType.Watching });
+		// Immediately set a status, before the interval code begins.
+        client.user.setActivity(statuses[Math.floor(Math.random() * statuses.length)], {
+			type: ActivityType.Custom,
+		});
+
+		// Set this code to execute in a set interval. In milliseconds.
+		setInterval(() => {
+			// Choose a random status from the list within the config file.
+			client.user.setActivity(statuses[Math.floor(Math.random() * statuses.length)], {
+				type: ActivityType.Custom,
+			});
+		}, 30000);
+
 	},
 };
