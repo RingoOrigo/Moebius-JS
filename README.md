@@ -5,9 +5,7 @@ Moebius JS is a full rewrite of Moebius within discord.js! Not only will all of 
 #### Complete Moebius Re-Integration
 The first step toward this bot's finished project is to completely rebuild the Moebius bot from [this archived repository](https://github.com/RingoOrigo/moebius-bot) in discord.js.
 
-While many of the features are already implemented, I am refraining from implementing certain features for the time being. The per-message responses, such as the "It's moebin' time" messages and the ping-detection messages will not be implemented until I can determine a suitable way to make them toggleable.
-
-* Progress: 70% (Nearing Completion)
+All features present in the original Moebius repository have been properly integrated into this repository!
 
 #### Economy System
 Ideally, there would be some way to implement a global economy system, where users can earn a fictional currency and earn spots on global and server-based leaderboards with their balance. 
@@ -20,8 +18,8 @@ Ideally, there would be some way to implement a global economy system, where use
 - Balance (used to view your balance or that of another user)
 - Global Leaderboard
 - Shop System
+- Pay other users (You can no longer steal by paying a negative quantity)
 ##### Planned Features:
-- Pay other users
 - Gamble your money via a myriad of methods
     - Coin flip (2x bet)
     - Predict dice roll (3x bet)
@@ -63,7 +61,7 @@ Before doing anything with this repository on your local machine, install Node.j
 *While not required, a linter can be incredibly useful. ESLint can be fully configured with a JSON file in your project's directory.*
 
 ```bash
-npm install --save-dev eslint
+  npm install --save-dev eslint
 ```
 
 #### Making the config file
@@ -79,11 +77,11 @@ Before running the bot, deploy your commands to your test guild by running the f
 
 You can then start the bot with the following command to ensure all of its commands are working as intended within your test guild.
 ```bash
-    npm run start
+  npm run start
 ```
 
 Upon confirmation that everything is working as intended, deploy your commands globaly for use in every server containing your bot.<br>
-*This will **delete** all of your local test commands, replacing them with global counterparts.*
+*This will **delete** all of your local test commands associated with your main ID, replacing them with global counterparts.*
 ```bash
-    npm run deploy
+  npm run deploy
 ```
