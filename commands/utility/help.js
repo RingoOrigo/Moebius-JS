@@ -73,7 +73,7 @@ module.exports = {
                         { name : '/stats:', value: 'View detailed statistics regarding the specified user\'s hauls. This includes current balance and net worth.', inline: true },
                         { name: '/leaderboard:', value: `View one of the two global ${currencyName} leaderboards. Choose between ranking by global top balances and global top net worths.`, inline: true },
                         { name: '/haul:', value: `Earn a random amount of ${currencyName}s for yourself or another server member once every 90 minutes! You can choose to be reminded when the cooldown has expired.`, inline: true },
-                        { name: '`/pay`:', value: `Pay another user the amount of ${currencyName}s specified from your own balance. This does not increase the user's net worth.`, inline: true },
+                        { name: '/pay:', value: `Pay another user the amount of ${currencyName}s specified from your own balance. This does not increase the user's net worth.`, inline: true },
                     );
             }
             if (selection.customId == 'utility') {
