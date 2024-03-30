@@ -23,7 +23,7 @@ module.exports = {
 			client.user.setActivity(statuses[Math.floor(Math.random() * statuses.length)], {
 				type: ActivityType.Custom,
 			});
-		}, 30000);
+		}, 900000);
 
 	},
 };
