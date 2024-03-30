@@ -45,16 +45,16 @@ module.exports = {
         try {
             let userProfile = await UserProfile.findOne({
                 userID: target.id,
-                displayName: target.globalName ?? target.displayName,
             });
 
             // If the user's profile doesn't exist, make one for them.
             if (!userProfile) {
                 userProfile = new UserProfile({
                     userID: target.id,
-                    displayName: target.globalName ?? target.displayName,
                 });
             }
+            // Keep the user's display name up to date.
+            userProfile.displayName = target.globalName ?? target.displayName;
 
             // Generate a random number between 1 and 100. This is for percent chances
             const rngVal = Math.floor(Math.random() * 100 + 1);

@@ -37,25 +37,24 @@ module.exports = {
             // Find the loaner and recipients entries in the database.
             loaner = await UserProfile.findOne({
                 userID: interaction.user.id,
-                displayName: interaction.user.globalName,
             });
             recipient = await UserProfile.findOne({
                 userID: target.id,
-                displayName: target.globalName ?? target.displayName,
             });
             // Create entires for the recipient and loaner if they do not already exist.
             if (!loaner) {
                 loaner = new UserProfile({
                     userID: interaction.user.id,
-                    displayName: interaction.user.globalName,
                 });
             }
             if (!recipient) {
                 recipient = new UserProfile({
                     userID: target.id,
-                    displayName: target.globalName ?? target.displayName,
                 });
             }
+
+            loaner.displayName = interaction.user.globalName;
+            recipient.displayName = target.globalName ?? target.displayName;
 
             // If the loaner does not have a high enough balance, do not allow them to pay
             if (loaner.balance < payment) {

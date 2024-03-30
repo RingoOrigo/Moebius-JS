@@ -31,19 +31,19 @@ module.exports = {
             // Attempt to find the profile
             profile = await UserProfile.findOne({
                 userID: target.id,
-                displayName: target.globalName,
             });
             // If it doesn't exist, create one!
             if (!profile) {
                 profile = new UserProfile({
                     userID: target.id,
-                    displayName: target.globalName,
                 });
             }
         }
         catch (e) {
             console.log(e);
         }
+
+        profile.displayName = interaction.user.globalName;
 
         let menu;
         switch (category) {

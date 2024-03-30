@@ -15,7 +15,7 @@ const UserProfileSchema = new Schema(
         },
         displayName: {
             type: String,
-            required: true,
+            default: '',
         },
         balance: {
             type: Number,
