@@ -67,8 +67,9 @@ module.exports = {
         collector.on('collect', async selection => {
             // Now that the button interaction has been stored, act accordingly
             if (selection.customId == 'economy') {
+                // Update the fields accordingly.
                 helpEmbed.setTitle(`${botName} Economy Commands`)
-                    .addFields(
+                    .setFields(
                         { name: '/shop:', value: `Spend your ${currencyName}s for profile items. Use your balance, but maintain your net worth!`, inline: true },
                         { name : '/stats:', value: 'View detailed statistics regarding the specified user\'s hauls. This includes current balance and net worth.', inline: true },
                         { name: '/leaderboard:', value: `View one of the two global ${currencyName} leaderboards. Choose between ranking by global top balances and global top net worths.`, inline: true },
@@ -78,7 +79,7 @@ module.exports = {
             }
             if (selection.customId == 'utility') {
                 helpEmbed.setTitle(`${botName} Utility Commands`)
-                    .addFields(
+                    .setFields(
                         { name: '/blacklist', value: `Choose to put yourself on the list of users that ${botName} will NOT respond to outside of commands.`, inline: true },
                         { name: '/info', value: 'Displays information on various specified topics', inline: true },
                         { name: '/profile', value: 'Display a user\'s customized profile card.', inline: true },
@@ -86,7 +87,7 @@ module.exports = {
             }
             if (selection.customId == 'fun') {
                 helpEmbed.setTitle(`${botName} Fun Commands`)
-                    .addFields(
+                    .setFields(
                         { name: '/cool', value: 'Display how cool you are on a scale of 1 - 10.', inline: true },
                         { name: '/roulette', value: 'Play a roulette with your choice of difficulty. (Most difficulties are wildly unfair)', inline: true },
                         { name: '/moeb', value: 'Display an on-command "IT\'S MOEBIN TIME" message.', inline: true },
