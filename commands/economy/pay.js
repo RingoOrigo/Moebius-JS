@@ -3,7 +3,7 @@
 */
 
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
-const { currencyName, botName } = require('../../config.json');
+const { currencyName, botName, embedImageURL } = require('../../config.json');
 const UserProfile = require('../../utils/schemas/UserProfile.js');
 
 module.exports = {
@@ -69,7 +69,7 @@ module.exports = {
                 .setColor('f0b3be')
                 .setAuthor({
                     name: `${botName}`,
-                    iconURL: 'https://cdn.discordapp.com/avatars/995022636549681152/2617cb7afb19882f89aa5ee1bec1c86a',
+                    iconURL: embedImageURL,
                 })
                 .setTitle('Successful Payment!')
                 .addFields(
@@ -79,7 +79,7 @@ module.exports = {
                 .setTimestamp()
                 .setFooter({
                     text: `Brought to you by ${botName}`,
-                    iconURL: 'https://cdn.discordapp.com/avatars/995022636549681152/2617cb7afb19882f89aa5ee1bec1c86a',
+                    iconURL: embedImageURL,
                 });
 
             // Sync the data with the database

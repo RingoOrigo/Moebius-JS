@@ -5,7 +5,7 @@
 */
 
 const { SlashCommandBuilder, EmbedBuilder, ButtonStyle, ButtonBuilder, ActionRowBuilder } = require('discord.js');
-const { botName, currencyName } = require('../../config.json');
+const { botName, currencyName, embedImageURL } = require('../../config.json');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -18,12 +18,12 @@ module.exports = {
             .setColor('f0b3be')
             .setAuthor({
                 name: `${botName}`,
-                iconURL: 'https://cdn.discordapp.com/avatars/995022636549681152/2617cb7afb19882f89aa5ee1bec1c86a',
+                iconURL: embedImageURL,
             })
             .setTimestamp()
             .setFooter({
                 text: `Brought to you by ${botName}`,
-                iconURL: 'https://cdn.discordapp.com/avatars/995022636549681152/2617cb7afb19882f89aa5ee1bec1c86a',
+                iconURL: embedImageURL,
             });
 
         // Create a button for each category of command

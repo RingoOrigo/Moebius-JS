@@ -7,7 +7,7 @@
 */
 
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
-const { botName, currencyName } = require('../../config.json');
+const { botName, currencyName, embedImageURL } = require('../../config.json');
 const UserProfile = require('../../utils/schemas/UserProfile.js');
 const onCooldown = new Map();
 
@@ -62,13 +62,13 @@ module.exports = {
                 .setColor('f0b3be')
                 .setAuthor({
                     name: `${botName}`,
-                    iconURL: 'https://cdn.discordapp.com/avatars/995022636549681152/2617cb7afb19882f89aa5ee1bec1c86a',
+                    iconURL: embedImageURL,
                 })
                 .setTitle(`<:gold:1210674875023491072> ${target.displayName}'s Haul:`)
                 .setTimestamp()
                 .setFooter({
                     text: `Brought to you by ${botName}`,
-                    iconURL: 'https://cdn.discordapp.com/avatars/995022636549681152/2617cb7afb19882f89aa5ee1bec1c86a',
+                    iconURL: embedImageURL,
                 });
             let earnings = 0;
 
@@ -144,10 +144,10 @@ module.exports = {
                 onCooldown.delete(user.id);
 
                 // Check if the user is on the Moebius Blacklist
-                // And DM the user when their haul is ready (if they aren't on the blacklist)
+                // And DM the user when their haul is ready (if they opted into it)
                 if (reminder) {
                     try {
-                        user.send('Your haul cooldown has expired and you are now free to use the command again!');
+                        user.send('Time in perpetuity flows once more. allowing your haul cooldown to expire.');
                     }
                     catch (e) {
                         console.log(`${interaction.user.globalName} does not allow messages.`);

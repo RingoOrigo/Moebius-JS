@@ -3,7 +3,7 @@
 		- This includes, but is not limited to the following: username, global display name, avatar, account creation date, and friend invite link.
 */
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
-const { helpServer, botCreator, botRepo, botName } = require('../../config.json');
+const { helpServer, botCreator, botRepo, botName, embedImageURL } = require('../../config.json');
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -43,12 +43,12 @@ module.exports = {
 			.setColor('f0b3be')
 			.setAuthor({
 				name : `${botName}`,
-				iconURL: 'https://cdn.discordapp.com/avatars/995022636549681152/2617cb7afb19882f89aa5ee1bec1c86a',
+				iconURL: embedImageURL,
 			})
 			.setTimestamp()
 			.setFooter({
 				text: `Brought to you by ${botName}`,
-				iconURL: 'https://cdn.discordapp.com/avatars/995022636549681152/2617cb7afb19882f89aa5ee1bec1c86a',
+				iconURL: embedImageURL,
 			});
 
 		let target;
@@ -96,7 +96,7 @@ module.exports = {
 					.setFooter({
 						// Do not remove this line in any forks of this bot, please!
 						text:'Moebius is a project originally by Ringo Origo',
-						iconURL:'https://cdn.discordapp.com/avatars/547101541442650133/981ec4f0e606161018352e6c8992a790',
+						iconURL: embedImageURL,
 					});
 				break;
 			}

@@ -10,7 +10,7 @@
 */
 
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
-const { botName } = require('../../config.json');
+const { botName, embedImageURL } = require('../../config.json');
 
 module.exports = {
     data:new SlashCommandBuilder()
@@ -95,7 +95,7 @@ module.exports = {
                 .setColor('f0b3be')
                 .setAuthor({
                     name: `${botName}`,
-                    iconURL: 'https://cdn.discordapp.com/avatars/995022636549681152/2617cb7afb19882f89aa5ee1bec1c86a',
+                    iconURL: embedImageURL,
                 })
                 .setTitle(`${botName} Roulette Info`)
                 .addFields(
@@ -107,7 +107,7 @@ module.exports = {
                 .setTimestamp()
                 .setFooter({
                     text: `Brought to you by ${botName}`,
-                    iconURL: 'https://cdn.discordapp.com/avatars/995022636549681152/2617cb7afb19882f89aa5ee1bec1c86a',
+                    iconURL: embedImageURL,
                 });
 
             await interaction.reply({ embeds: [rouletteEmbed], ephemeral: true });
