@@ -41,6 +41,25 @@ module.exports = {
             return;
         }
 
+        // Add the user to the list of users on cooldown
+        onCooldown.set(user.id, interaction.createdTimestamp);
+        setTimeout(() => {
+                // Remove the user from the set after 90 minutes
+                onCooldown.delete(user.id);
+
+                // Check if the user is on the Moebius Blacklist
+                // And DM the user when their haul is ready (if they opted into it)
+                if (reminder) {
+                    try {
+                        user.send('Time in perpetuity flows once more. allowing your haul cooldown to expire.');
+                    }
+                    catch (e) {
+                        console.log(`${interaction.user.globalName} does not allow messages.`);
+                    }
+                }
+            }, 5400000,
+        );
+
         // First, try and find the user running the command in the database.
         try {
             let userProfile = await UserProfile.findOne({
@@ -134,27 +153,6 @@ module.exports = {
         catch (error) {
             console.log(error);
         }
-
-        // Add the user to the list of users on cooldown
-        // This should be the last thing to happen, as in events where the API lags,
-        //     users can be added to the cooldown list before the command ever properly executes and their hauls will be skipped.
-        onCooldown.set(user.id, interaction.createdTimestamp);
-        setTimeout(() => {
-                // Remove the user from the set after 90 minutes
-                onCooldown.delete(user.id);
-
-                // Check if the user is on the Moebius Blacklist
-                // And DM the user when their haul is ready (if they opted into it)
-                if (reminder) {
-                    try {
-                        user.send('Time in perpetuity flows once more. allowing your haul cooldown to expire.');
-                    }
-                    catch (e) {
-                        console.log(`${interaction.user.globalName} does not allow messages.`);
-                    }
-                }
-            }, 5400000,
-        );
 
     },
 };
