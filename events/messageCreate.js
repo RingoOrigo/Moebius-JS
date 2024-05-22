@@ -1,9 +1,10 @@
 /*
-    This event runs every time that a message in a server with Moebius is sent.
-    To prevent this from lagging the bot, expensive logic will only be run when the bot is mentioned.
-        Users who opted into the blacklist will not have the bot respond to their messages.
+This event runs every time that a message in a server with Moebius is sent.
+To prevent this from lagging the bot, expensive logic will only be run when the bot is mentioned.
+Users who opted into the blacklist will not have the bot respond to their messages.
 */
 
+/* eslint-disable no-unused-vars */
 const { Events } = require('discord.js');
 const Blacklist = require('../utils/schemas/Blacklist.js');
 const { messageResponses, clientID } = require('../config.json');
@@ -27,13 +28,21 @@ module.exports = {
             const content = message.content.toLowerCase();
             if (message.mentions.has(clientID)) {
                 // If the user is NOT in the blacklist, respond with a random message from the list in the config file.
-                return await message.reply(messageResponses[Math.floor(Math.random() * messageResponses.length)]);
+                return message.reply(messageResponses[Math.floor(Math.random() * messageResponses.length)]).catch(error => {
+                    console.log('Unable to respond to ping.');
+                });
             }
             if (content.includes('time')) {
-                return await message.reply('It\'s moebin\' time!');
+                // If the user is NOT in the blacklist, respond to any message containing the word "time"
+                return message.reply('It\'s moebin\' time!').catch(error => {
+                    console.log('Cannot reply to message containing time');
+                });
             }
             if (content.includes('yippee')) {
-                return await message.react('<:yippee:1219088376783831182>');
+                // If the user is NOT in the blacklist, react to any message containing the word "yippee"
+                return message.react('<:yippee:1219088376783831182>').catch(error => {
+                    console.log('Cannot react to message containing yippee');
+                });
             }
         }
     },

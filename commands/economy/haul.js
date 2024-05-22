@@ -50,12 +50,10 @@ module.exports = {
                 // Check if the user is on the Moebius Blacklist
                 // And DM the user when their haul is ready (if they opted into it)
                 if (reminder) {
-                    try {
-                        user.send('Time in perpetuity flows once more. allowing your haul cooldown to expire.');
-                    }
-                    catch (e) {
-                        console.log(`${interaction.user.globalName} does not allow messages.`);
-                    }
+                    user.send('Time in perpetuity flows once more. allowing your haul cooldown to expire.').catch(error => {
+                        console.log(`${user.globalName} does not allow messages from Moebius`);
+                        console.log(error);
+                    });
                 }
             }, 5400000,
         );
