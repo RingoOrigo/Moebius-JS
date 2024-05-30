@@ -10,7 +10,7 @@ module.exports = {
 	name: Events.ClientReady,
 	once: true,
 	execute(client) {
-		console.log(`Ready! Logged in as ${client.user.displayName}`);
+		console.log(`Ready! Logged in as ${client.user.displayName} on ${client.guilds.cache.size} servers.`);
 
 		// Immediately set a status, before the interval code begins.
         client.user.setActivity(statuses[Math.floor(Math.random() * statuses.length)], {
