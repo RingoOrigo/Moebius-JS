@@ -25,24 +25,36 @@ module.exports = {
 
         // Only respond when mentioned
         if (!blacklistStatus) {
-            const content = message.content.toLowerCase();
+
+            // Check for mentions first, as this will prevent the entire message from being mapped unless necessary.
             if (message.mentions.has(clientID)) {
                 // If the user is NOT in the blacklist, respond with a random message from the list in the config file.
                 return message.reply(messageResponses[Math.floor(Math.random() * messageResponses.length)]).catch(error => {
                     console.log('Unable to respond to ping.');
                 });
             }
-            if (content.includes('time')) {
-                // If the user is NOT in the blacklist, respond to any message containing the word "time"
-                return message.reply('It\'s moebin\' time!').catch(error => {
-                    console.log('Cannot reply to message containing time');
-                });
-            }
-            if (content.includes('yippee')) {
-                // If the user is NOT in the blacklist, react to any message containing the word "yippee"
-                return message.react('<:yippee:1219088376783831182>').catch(error => {
-                    console.log('Cannot react to message containing yippee');
-                });
+
+            // Map the message content into an array
+            const content = message.content.split(' ');
+            let replied = false, reacted = false;
+
+            for (const wordIndex in content) {
+                const word = content[wordIndex].toLowerCase();
+
+                // If time is present in the message, reply.
+                if (word.includes('time') && !replied) {
+                    replied = true;
+                    await message.reply('It\'s moebin\' time!').catch(error => {
+                        console.log('Cannot reply to message containing time');
+                    });
+                }
+
+                if (word == 'yippee' && !reacted) {
+                    reacted = true;
+                    await message.react('<:yippee:1219088376783831182>').catch(error => {
+                        console.log('Cannot react to message containing yippee');
+                    });
+                }
             }
         }
     },
