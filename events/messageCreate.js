@@ -36,7 +36,7 @@ module.exports = {
 
             // Map the message content into an array
             const content = message.content.split(' ');
-            let replied = false, reacted = false;
+            let replied = false, yippeed = false, hearted = false;
 
             for (const wordIndex in content) {
                 const word = content[wordIndex].toLowerCase();
@@ -49,10 +49,17 @@ module.exports = {
                     });
                 }
 
-                if (word == 'yippee' && !reacted) {
-                    reacted = true;
+                if (word.includes('yippee') && !yippeed) {
+                    yippeed = true;
                     await message.react('<:yippee:1219088376783831182>').catch(error => {
                         console.log('Cannot react to message containing yippee');
+                    });
+                }
+
+                if (word.includes('moeby') && !hearted) {
+                    hearted = true;
+                    await message.react('❤').catch(error => {
+                        console.log('Cannot react to message containing Moeby');
                     });
                 }
             }
