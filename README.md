@@ -1,5 +1,7 @@
 ## Moebius-JS
 Moebius JS is a full rewrite of Moebius within discord.js! Not only will all of the features from the original pycord build of Moebius be ported over, but a slew of new features will be implemented (exclusive to Moebius JS) as well!
+#### Old-Unverified Branch?
+This is an archive of the original main branch. Changes were made in order to streamline the verification process for Discord.
 ## Roadmap
 
 #### Complete Moebius Re-Integration
