@@ -1,6 +1,15 @@
+/*
+ * In order to get Moebius verified on Discord, changes were made to streamline the process.
+ * The gateway intent for GUILD_MEMBERS was removed (it was never actually used)
+ * The gateway intent for MESSAGE_CONTENT was removed, along with functions that take advantage of it.
+ *      Moebius WILL reapply for this intent. The removal is temporary, but if it is not granted by Discord, the removal will remain permanent
+*/
+
+
 // Required for command handling
 // fs is node's FileSystem module, used to read the commands directory.
 // path is used to make paths to access diles and directories
+// eslint-disable-next-line no-unused-vars
 const { Client, Collection, GatewayIntentBits } = require('discord.js');
 // eslint-disable-next-line no-unused-vars
 const { token, testToken, status, mongoDBURI } = require('./config.json');
@@ -9,10 +18,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 
 // Create a new client instance
-const client = new Client({ intents: [
-    GatewayIntentBits.Guilds,
-    GatewayIntentBits.GuildMessages,
-    GatewayIntentBits.MessageContent] });
+const client = new Client({ intents: [] });
 
 // Collection is an extention of the Map class, used to store commands for efficient retrieval and execution.
 client.commands = new Collection();
