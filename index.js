@@ -9,7 +9,6 @@
 // Required for command handling
 // fs is node's FileSystem module, used to read the commands directory.
 // path is used to make paths to access diles and directories
-// eslint-disable-next-line no-unused-vars
 const { Client, Collection, GatewayIntentBits } = require('discord.js');
 // eslint-disable-next-line no-unused-vars
 const { token, testToken, status, mongoDBURI } = require('./config.json');
@@ -18,7 +17,10 @@ const fs = require('node:fs');
 const path = require('node:path');
 
 // Create a new client instance
-const client = new Client({ intents: [] });
+const client = new Client({ intents: [
+    GatewayIntentBits.Guilds,
+    GatewayIntentBits.GuildMessages,
+    GatewayIntentBits.MessageContent] });
 
 // Collection is an extention of the Map class, used to store commands for efficient retrieval and execution.
 client.commands = new Collection();
